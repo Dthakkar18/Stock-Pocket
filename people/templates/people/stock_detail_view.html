@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Detail View</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+
+    <style>
+        body{
+            background-color: beige;
+        }
+    
+        h1{
+            position: absolute;
+            left: 35px;
+            font-family: monospace;
+            font-size: 40px;
+            width: 500px;
+            text-transform: capitalize;
+            
+        }
+        h2{
+            position: absolute;
+            top: 120px;
+            left: 35px;
+            font-family: monospace;
+            font-size: 30px;
+            width: 600px;
+
+        }
+        p1{
+            position: absolute;
+            top: 170px;
+            left: 35px;
+            font-family: monospace;
+            font-size: 20px;
+            width: 550px;
+        }
+        h3{
+            position: absolute;
+            font-family: monospace;
+            font-size: 30px;
+            bottom: 750px;
+            left: 1050px;
+            width: 250px;
+        }
+        p2{
+            position: relative;
+            top: 140px;
+            left: 1005px;
+            width: 250px;
+            font-family: monospace;
+            font-size: 20px;
+            
+        }
+        h4{
+            position: absolute;
+            font-family: monospace;
+            font-size: 30px;
+            bottom: 740px;
+            left: 1350px;
+            width: 250px;
+        }
+        h5{
+            position: absolute;
+            top: 715px;
+            left: 50px;
+            font-family: monospace;
+            font-size: 30px;
+            width: 600px;
+        }
+        
+        p3{
+            position: relative;
+            bottom: 550px;
+            left: 1335px;
+            width: 250px;
+            font-family: monospace;
+            font-size: 20px;
+            
+        }
+        
+        p4{
+            position: absolute;
+            top: 810px;
+            left: 70px;
+            width: 700px;
+            padding-bottom: 25px;
+            font-family: monospace;
+            font-size: 15px;
+        }
+        h6{
+            position: absolute;
+            top: 900px;
+            left: 1000px;
+            font-family: monospace;
+            font-size: 30px;
+            width: 600px;
+        }
+        p5{
+            position: absolute;
+            top: 1000px;
+            left: 1000px;
+            font-family: monospace;
+            font-size: 15px;
+            width: 600px;
+        }
+        p6{
+            position: absolute;
+            top: 1000px;
+            left: 1100px;
+            font-family: monospace;
+            font-size: 15px;
+            width: 600px;
+        }
+        p7{
+            position: absolute;
+            top: 1000px;
+            left: 1215px;
+            font-family: monospace;
+            font-size: 15px;
+            width: 600px;
+            text-transform: capitalize;
+        }
+    
+    </style>
+
+    <body>
+        <a href="/people/{{ pk }}/detail">Back to Stock Selection</a>
+        <h1><u>{{ stock.company_name }} stock</u></h1>
+        <h2>General Info</h2>
+        <p1>
+            {% for item in gen_info %}
+            <ul>{{ item }}</ul>
+            {% endfor %}
+            <ul>Sector: {{ sector }}</ul>
+            <ul>Industry: {{ industry }}</ul>
+            <ul>Full Time Employees: {{ employees }}</ul>
+            <ul>Yahoo score: {{ buy_num }} --> {{ buy_word }}</ul>
+        </p1>
+
+        <h3>Revenues</h3>
+        <p2>
+            {% for item in revenues %}
+            <ul>{{ item }}</ul>
+            {% endfor %}
+
+        </p2>
+
+        <h4>Gross Profit</h4>
+        <p3>
+            {% for item in profits %}
+            <ul>{{ item }}</ul>
+            {% endfor %}
+
+        </p3>
+
+        <h5>About</h5>
+        <p4>
+        {{ summary }}
+        </p4>
+
+        <h6>Suggestions</h6>
+        <p5>
+            {% for ticker in suggestion_tickers %}
+            <ul><a href="https://finance.yahoo.com/quote/{{ ticker }}?p={{ ticker }}">{{ ticker }}</a> --></ul>
+            {% endfor %}
+        </p5>
+
+        <p6>
+            {% for price in suggestion_prices %}
+            <ul>{{ price }}</ul>
+            {% endfor %}
+
+        </p6>
+
+        <p7>
+            {% for name in suggestion_names %}
+            <ul>{{ name }}</ul>
+            {% endfor %}
+        </p7>
+
+
+    </body>
+</html>
