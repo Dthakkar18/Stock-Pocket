@@ -107,14 +107,30 @@
         
         #changeTable thead{
             position: relative;
+            text-align: center;
             top: 75px;
+            left: 20px;
             background-color: #9CAF88;
             
         }
         #changeTable tbody{
             position: relative;
             top: 75px;
+            left: 50px;
+        }
+
+        #changeTable2 thead{
+            position: relative;
+            text-align: center;
+            bottom: 61px;
+            left: 150px;
+            background-color: #9CAF88;
             
+        }
+        #changeTable2 tbody{
+            position: relative;
+            bottom: 61px;
+            left: 180px;
         }
 
     
@@ -198,7 +214,7 @@
         <!-- Price Change Table also add the price part too now current_prices -->
         <h3>Current Price Change:</h3>
 
-        <table id="changeTable" class="table table-borderless" style="width: 15%;">
+        <table id="changeTable" class="table table-borderless" style="width: 7%;">
             <thead>
                 <tr>
                 <th scope="col">Ticker</th>
@@ -212,7 +228,23 @@
                     </tr>
                 {% endfor %}
 
-                
+            </tbody>
+        </table>
+
+
+        <table id="changeTable2" class="table table-borderless" style="width: 7%;">
+            <thead>
+                <tr>
+                <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for price in current_prices %}
+                    <tr>
+                        <td>{{ price }}</td>
+                    </tr>
+                {% endfor %}
 
             </tbody>
         </table>
