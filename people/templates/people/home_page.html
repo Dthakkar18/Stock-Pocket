@@ -24,8 +24,8 @@
         h1{
             position: relative;
             left: 15px;
-            top: 10px;
             font-family: monospace;
+            padding: 8px;
         }
 
         h2{
@@ -40,11 +40,13 @@
         #stockLayout table{
             position: relative;
             left: 25px;
-            top: 5px;
+            top: 100px;
             background-color: lightgray;
+            
         }
 
         #stockLayout {
+
             font-family: Arial, Helvetica, sans-serif;
             border-collapse: collapse;
             width: 45%;
@@ -106,31 +108,43 @@
         }
         
         #changeTable thead{
-            position: relative;
-            text-align: center;
-            top: 75px;
-            left: 20px;
+            position: absolute;
+            top: 0px;
+            left: 30px;
             background-color: #9CAF88;
+            width: 200px;
             
         }
         #changeTable tbody{
+            position: absolute;
+            top: 35px;
+            left: 42px;
+            text-transform: uppercase;
+        }
+
+        #ticker{
             position: relative;
-            top: 75px;
-            left: 50px;
+            left: 10px;
         }
 
         #changeTable2 thead{
-            position: relative;
-            text-align: center;
-            bottom: 61px;
-            left: 150px;
+            position: absolute;
+            top: 0px;
+            left: 160px;
             background-color: #9CAF88;
             
         }
         #changeTable2 tbody{
+            position: absolute;
+            top: 35px;
+            left: 150px;
+        }
+
+        #tables{
             position: relative;
-            bottom: 61px;
-            left: 180px;
+            top: 120px;
+            width: 300px;
+            height: 150px;
         }
 
     
@@ -151,30 +165,31 @@
 
 
         <!-- General Stock Table -->
-        <div>
-            <h2>Your Holdings:</h2>            
-            <table id="stockLayout">
-                <thead>
-                    <tr>
-                        <th>Ticker</th>
-                        <th>Shares</th>
-                        <th>Average Share Price</th>
-                        <th>Amount In</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for stock in stocks %}
-                    <tr>
-                        <td>{{ stock.company_ticker }}</td>
-                        <td>{{ stock.shares }}</td>
-                        <td>${{ stock.avg_share_price }}</td>
-                        <td>${{ stock }}</td>
-                    </tr>
-                    {% endfor %}
-                   
-                </tbody>
-                
-            </table>
+        <div id="genral">
+            <div class="generalTable">          
+                <table id="stockLayout">
+                    <thead>
+                        <tr>
+                            <th>Ticker</th>
+                            <th>Shares</th>
+                            <th>Average Share Price</th>
+                            <th>Amount In</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stock in stocks %}
+                        <tr>
+                            <td>{{ stock.company_ticker }}</td>
+                            <td>{{ stock.shares }}</td>
+                            <td>${{ stock.avg_share_price }}</td>
+                            <td>${{ stock }}</td>
+                        </tr>
+                        {% endfor %}
+                    
+                    </tbody>
+                    
+                </table>
+            </div>
         </div>
 
 
@@ -212,42 +227,49 @@
         </script>
         
         <!-- Price Change Table also add the price part too now current_prices -->
-        <h3>Current Price Change:</h3>
+        
 
-        <table id="changeTable" class="table table-borderless" style="width: 7%;">
-            <thead>
-                <tr>
-                <th scope="col">Ticker</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div id="tables">
+            <div class='tableOne'>
+                <table id="changeTable" class="table table-borderless">
+                    <thead>
+                        <tr>
+                        <th id="ticker" scope="col">Ticker</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                {% for stock in stocks %}
-                    <tr>
-                        <td>{{ stock.company_name }}</td>
-                    </tr>
-                {% endfor %}
+                        {% for stock in stocks %}
+                            <tr>
+                                <td>{{ stock.company_ticker }}</td>
+                            </tr>
+                        {% endfor %}
 
-            </tbody>
-        </table>
+                    </tbody>
 
+                </table>
+            </div>
 
-        <table id="changeTable2" class="table table-borderless" style="width: 7%;">
-            <thead>
-                <tr>
-                <th scope="col">Price</th>
-                </tr>
-            </thead>
-            <tbody>
+            <div class='tableTwo'>
+                <table id="changeTable2" class="table table-borderless">
+                    <thead>
+                        <tr>
+                        <th scope="col">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                {% for price in current_prices %}
-                    <tr>
-                        <td>{{ price }}</td>
-                    </tr>
-                {% endfor %}
+                        {% for price in current_prices %}
+                            <tr>
+                                <td>{{ price }}</td>
+                            </tr>
+                        {% endfor %}
 
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
 
 
         

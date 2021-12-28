@@ -135,9 +135,6 @@ def purchase(Ticker):
 		return [div.text, "Sell"]
 
 def current_change(Tickers, shares, amounts):
-	def point(number):
-		text = str(number)
-		return text.index('.')
 	currentP = []
 	up_down = []
 	for ticker in Tickers:
@@ -159,10 +156,13 @@ def current_change(Tickers, shares, amounts):
 				up_down.append("+" + str(num))
 			else:
 				up_down.append(str(num))
-	
 			
 	return up_down
-	
+
+# helper method for current_change
+def point(number):
+		text = str(number)
+		return text.index('.')	
 
 
 if __name__ == '__main__':

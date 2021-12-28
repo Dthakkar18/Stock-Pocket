@@ -1,4 +1,5 @@
 from django.contrib import auth
+from django.db.models.fields import NullBooleanField
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -40,7 +41,7 @@ def home_page(request, pk):
     context = {
         "agent": agent,
         "stocks": stocks,
-        "amount": amount,
+        "amount": amount, 
         "names": names,
         "current_prices": current_prices,
         "pk": pk
@@ -83,14 +84,19 @@ def stock_add(request, pk):
             company_ticker = form.cleaned_data['company_ticker']
             shares = form.cleaned_data['shares']
             avg_share_price = form.cleaned_data['avg_share_price']
-            Stock.objects.create(
-                company_name = company_name,
-                company_ticker = company_ticker,
-                shares = shares,
-                avg_share_price = avg_share_price,
-                agent_id = pk
-            )
-            print("The stock has been added")
+            # check if there is same stock in database
+            testing = stocks.filter(company_ticker=company_ticker)
+            # if not then continue with creating 
+            if len(testing) == 0: 
+                Stock.objects.create(
+                    company_name = company_name,
+                    company_ticker = company_ticker,
+                    shares = shares,
+                    avg_share_price = avg_share_price,
+                    agent_id = pk
+                )
+                print("The stock has been added")
+            
             return redirect("/people/" + str(pk)) 
 
     context = {
