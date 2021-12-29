@@ -52,45 +52,63 @@
         color: darkgreen;
     }
     p3{
-        position: relative;
-        top: 450px;
-        left: 200px;
+        position: absolute;
+        text-align: center;
+        padding: 5px;
+        top: 0px;
+        left: 0px;
         font-family: monospace;
         font-size: 20px;
         width: 460px;
         color: black;
     }
     p4{
-        position: relative;
-        top: 450px;
-        left: 500px;
+        position: absolute;
+        text-align: center;
+        padding: 5px;
+        top: 0px;
+        left: 0px;
         font-family: monospace;
         font-size: 20px;
         width: 460px;
         color: black;
     }
     p5{
-        position: relative;
-        top: 455px;
-        left: 370px;
+        position: absolute;
+        top: 70px;
+        left: 190px;
         font-family: monospace;
-        font-size: 20px;
-        color: black;
+        font-size: 25px;
     }
     p6{
-        position: relative;
-        top: 415px;
-        left: 1300px;
+        position: absolute;
+        top: 70px;
+        left: 190px;
         font-family: monospace;
-        font-size: 20px;
-        color: black;
+        font-size: 25px;
     }
     
-    
+    #login{
+        position: relative;
+        border: 5px solid black;
+        top: 350px;
+        left: 200px;
+        width: 470px;
+        height: 200px;
+    }
+    #signUp{
+        position: relative;
+        border: 5px solid black;
+        top: 150px;
+        left: 1200px;
+        width: 470px;
+        height: 200px;
+    }
+
     </style>
 
     <body>
-        <h1>Welcome to Stock Pocket</h1>
+        <h1>Welcome to <span class="badge bg-success">Stock Pocket</span></h1>
         <div>
             <p> 
                 Here you can create an easy portfolio with your favorite stocks just by adding
@@ -101,18 +119,22 @@
                 a simple layout with no confusing charts or graphs!
             </p2>
         </div>
-        <p3> 
-            If you are a current member go ahead and sign in!
-        </p3>
-        <p4> 
-            First time here? No worries just fill our the sign up form!
-        </p4>
-        <p5>
-            <ul><a href="/signup/">Sign up</a></ul>
-        </p5>
-        <p6>
-            <ul><a href="/login/">Login</a></ul>
-        </p6>
+        <div id="login">
+            <p3> 
+                If you are a current member go ahead and login below!
+            </p3>
+            <p6>
+                <span class="badge rounded-pill bg-light text-dark"><a href="/login/">Login</a></span>
+            </p6>
+        </div>
+        <div id="signUp">
+            <p4> 
+                First time here? No worries just fill our the sign up form!
+            </p4>
+            <p5>
+                <span class="badge rounded-pill bg-light text-dark"><a href="/signup/">Sign up</a></span>
+            </p5>
+        </div>
 
 
          <!-- Option 1: Bootstrap Bundle with Popper -->

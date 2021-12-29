@@ -24,8 +24,10 @@
         h1{
             position: relative;
             left: 15px;
-            font-family: monospace;
-            padding: 8px;
+            top: 10px;
+            font-family: Arial;
+            padding: 20px;
+
         }
 
         h2{
@@ -37,13 +39,7 @@
             font-family: monospace;
         }
         
-        #stockLayout table{
-            position: relative;
-            left: 25px;
-            top: 100px;
-            background-color: lightgray;
-            
-        }
+        
 
         #stockLayout {
 
@@ -111,7 +107,7 @@
             position: absolute;
             top: 0px;
             left: 30px;
-            background-color: #9CAF88;
+            background-color: #9AC791;
             width: 200px;
             
         }
@@ -125,13 +121,17 @@
         #ticker{
             position: relative;
             left: 10px;
+            color: white;
+        }
+        #price{
+            color: white;
         }
 
         #changeTable2 thead{
             position: absolute;
             top: 0px;
             left: 160px;
-            background-color: #9CAF88;
+            background-color: #9AC791;
             
         }
         #changeTable2 tbody{
@@ -208,7 +208,7 @@
                 datasets: [{
                 data: {{ amount|safe }},
                 backgroundColor: [
-                    '#3E5435', '#9AC791', '#8ABD91', '#228B22', '#7CFC00', '#008000', '#097969', '#AFE1AF', '#50C878', '#5F8575', '#355E3B', '#2AAA8A'
+                    '#3E5435', '#9AC791', '#8ABD91', '#228B22', '#008000', '#097969', '#AFE1AF', '#50C878', '#5F8575', '#355E3B', '#2AAA8A'
                 ],
                 label: 'Ticker'
                 }],
@@ -254,7 +254,7 @@
                 <table id="changeTable2" class="table table-borderless">
                     <thead>
                         <tr>
-                        <th scope="col">Price</th>
+                        <th id="price" scope="col">Price</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -1,7 +1,7 @@
 from django.contrib import auth
 from django.db.models.fields import NullBooleanField
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, response
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -35,7 +35,7 @@ def home_page(request, pk):
     shares = []
     for i in stocks:
         amount.append(round(i.shares * i.avg_share_price,2))
-        names.append(i.company_ticker)
+        names.append(i.company_ticker.upper())
         shares.append(i.shares)
     current_prices = current_change(names, shares, amount)
     context = {
@@ -75,32 +75,36 @@ def stock_add(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
     form = addStockForm()
     if request.method == "POST":
-        print('Reciveing a post request')
-        form = addStockForm(request.POST)
-        if form.is_valid():
-            print("The form is valid")
-            print(form.cleaned_data)
-            company_name = form.cleaned_data['company_name']
-            company_ticker = form.cleaned_data['company_ticker']
-            shares = form.cleaned_data['shares']
-            avg_share_price = form.cleaned_data['avg_share_price']
-            # check if there is same stock in database
-            testing = stocks.filter(company_ticker=company_ticker)
-            # if not then continue with creating 
-            if len(testing) == 0: 
-                Stock.objects.create(
-                    company_name = company_name,
-                    company_ticker = company_ticker,
-                    shares = shares,
-                    avg_share_price = avg_share_price,
-                    agent_id = pk
-                )
-                print("The stock has been added")
+        print(request.POST)
+        if request.POST.get("addStock"):
+            if len(request.POST.keys()) == 6:
+                print("all items were given")
+                company_name = request.POST.get("name")
+                company_ticker = request.POST.get("ticker")
+                shares = request.POST.get("shares")
+                avg_share_price = request.POST.get("avgPrice")
+                 # check if there is same stock in database
+                testing = stocks.filter(company_ticker=company_ticker)
+                # if not then continue with creating 
+                if len(testing) == 0: 
+                    Stock.objects.create(
+                        company_name = company_name,
+                        company_ticker = company_ticker,
+                        shares = shares,
+                        avg_share_price = avg_share_price,
+                        agent_id = pk
+                    )
+                    print("The stock has been added")
+                else:
+                    print("stock in database already")
+            else:
+                print("not all items here")
+
             
             return redirect("/people/" + str(pk)) 
 
     context = {
-        "form": form,
+        "form": form, #might not need it now cause we created custom one 
         "pk": pk,
         'stocks': stocks
     }
