@@ -48,6 +48,14 @@
         text-transform: uppercase;
     }
     
+    form{
+        
+        font-size: 20px;
+        font-family: monospace;
+        width: 600px;
+        height: 300px;
+        border: 5px solid black;
+    }
     
     </style>
 
@@ -59,8 +67,15 @@
         <h1><u>Delete a stock</u></h1>
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Delete</button>
+            <div id="inputContent">
+                <div class="row g-3">
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" name="ticker" placeholder="Company Ticker" style="height: 45px;">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" name="deleteStock" value="deleteStock" class="btn btn-outline-success">Submit</button>
+
         </form>
 
         <h2><u>Your Options</u>:</h2>

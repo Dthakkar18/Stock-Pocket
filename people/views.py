@@ -143,16 +143,18 @@ def stock_delete(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
     form = deleteStockForm()
     if request.method == "POST":
-        print('Reciving a post request')
-        form = deleteStockForm(request.POST)
-        if form.is_valid():
-            print("Vaild form")
-            print(form.cleaned_data)
-            company_ticker = form.cleaned_data['company_ticker']
-            stock = Stock.objects.get(agent_id=pk, company_ticker=company_ticker)
-            stock.delete()
-            print('Stock has been deleted')
-            return redirect("/people/" + str(pk))
+        print(request.POST)
+        if request.POST.get("deleteStock"):
+            if len(request.POST.keys()) == 3:
+                print("got all contents")
+                company_ticker = request.POST.get("ticker")
+                deleteStock = Stock.objects.get(agent_id=pk, company_ticker=company_ticker)
+                deleteStock.delete()
+                print("Stock has been deleted")
+                return redirect("/people/" + str(pk))
+            else:
+                print("not all content provided")
+
     context = {
         "form": form,
         "pk": pk,
