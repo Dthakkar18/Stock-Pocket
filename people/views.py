@@ -77,7 +77,7 @@ def stock_add(request, pk):
     if request.method == "POST":
         print(request.POST)
         if request.POST.get("addStock"):
-            if len(request.POST.keys()) == 6:
+            if len(request.POST.get("name")) != 0 and len(request.POST.get("ticker")) != 0 and len(request.POST.get("shares")) != 0 and len(request.POST.get("avgPrice")) != 0:
                 print("all items were given")
                 company_name = request.POST.get("name")
                 company_ticker = request.POST.get("ticker")
