@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, response
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin # not using this right now
 from django.views import generic
 from .models import Stock, Agent, User
 from .forms import addStockForm, updateStockForm, deleteStockForm, detailStockForm, CustomUserCreationForm, loginForm
@@ -12,7 +12,7 @@ from .stock_function import generalInfo, showRevenue, showGrossProfit, purchase,
 
 # Create your views here.
 
-
+# made the signup view in class form
 class SignupView(generic.CreateView):
     template_name = "registration/signup.html"
     form_class = CustomUserCreationForm 
@@ -20,10 +20,10 @@ class SignupView(generic.CreateView):
     def get_success_url(self):
         return reverse("login")
 
+
 @login_required(login_url='/login/')
 def landing_page(request):
     return render(request, "people/landing_page.html")
-
 
 
 @login_required(login_url='/login/')
@@ -71,12 +71,12 @@ def login_view(request):
 
 
 @login_required(login_url='/login/')
-def stock_add(request, pk):
+def stock_add_delete(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
     form = addStockForm()
     if request.method == "POST":
         print(request.POST)
-        if request.POST.get("addStock"):
+        if request.POST.get("addStock"): # if request from adding form
             if len(request.POST.get("name")) != 0 and len(request.POST.get("ticker")) != 0 and len(request.POST.get("shares")) != 0 and len(request.POST.get("avgPrice")) != 0:
                 print("all items were given")
                 company_name = request.POST.get("name")
@@ -95,20 +95,29 @@ def stock_add(request, pk):
                         agent_id = pk
                     )
                     print("The stock has been added")
+                    return redirect("/people/" + str(pk)) 
                 else:
                     print("stock in database already")
             else:
                 print("not all items here")
 
-            
-            return redirect("/people/" + str(pk)) 
+        elif request.POST.get("deleteStock"): # if request from deleting form
+            if len(request.POST.get("ticker")) != 0:
+                print("got all contents")
+                company_ticker = request.POST.get("ticker")
+                deleteStock = Stock.objects.get(agent_id=pk, company_ticker=company_ticker)
+                deleteStock.delete()
+                print("Stock has been deleted")
+                return redirect("/people/" + str(pk))
+            else:
+                print("not all content provided")
 
     context = {
         "form": form, #might not need it now cause we created custom one 
         "pk": pk,
         'stocks': stocks
     }
-    return render(request, "people/stock_add.html", context)
+    return render(request, "people/stock_add_delete.html", context)
 
 
 @login_required(login_url='/login/')
@@ -136,31 +145,6 @@ def stock_update(request, pk):
         'stocks': stocks
     }
     return render(request, "people/stock_update.html", context)
-
-
-@login_required(login_url='/login/')
-def stock_delete(request, pk):
-    stocks = Stock.objects.filter(agent_id=pk)
-    form = deleteStockForm()
-    if request.method == "POST":
-        print(request.POST)
-        if request.POST.get("deleteStock"):
-            if len(request.POST.keys()) == 3:
-                print("got all contents")
-                company_ticker = request.POST.get("ticker")
-                deleteStock = Stock.objects.get(agent_id=pk, company_ticker=company_ticker)
-                deleteStock.delete()
-                print("Stock has been deleted")
-                return redirect("/people/" + str(pk))
-            else:
-                print("not all content provided")
-
-    context = {
-        "form": form,
-        "pk": pk,
-        'stocks': stocks
-    }
-    return render(request, "people/stock_delete.html", context)
 
 
 @login_required(login_url='/login/')
