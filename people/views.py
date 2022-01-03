@@ -125,20 +125,22 @@ def stock_update(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
     form = updateStockForm()
     if request.method == "POST":
-        print('Reciveing a post request')
-        form = updateStockForm(request.POST)
-        if form.is_valid():
-            print("The form is valid")
-            print(form.cleaned_data)
-            company_ticker = form.cleaned_data['company_ticker']
-            shares = form.cleaned_data['shares']
-            avg_share_price = form.cleaned_data['avg_share_price']
-            stock = Stock.objects.get(agent_id=pk, company_ticker=company_ticker)
-            stock.shares = shares
-            stock.avg_share_price = avg_share_price
-            stock.save()
-            print("The stock has been updated")
-            return redirect("/people/" + str(pk)) 
+        print(request.POST)
+        if request.POST.get("updateStock"): # check that request is from correct button
+            if len(request.POST.get("ticker")) != 0 and len(request.POST.get("shares")) != 0 and len(request.POST.get("avgPrice")) != 0:
+                print("all items were given")
+                company_ticker = request.POST.get("ticker")
+                shares = request.POST.get("shares")
+                avg_share_price = request.POST.get("avgPrice")
+                updatingStock = Stock.objects.get(agent_id=pk, company_ticker=company_ticker)
+                updatingStock.shares = shares
+                updatingStock.avg_share_price = avg_share_price
+                updatingStock.save()
+                print("The stock has been updated")
+                return redirect("/people/" + str(pk)) 
+            else:
+                print("not all items given")
+ 
     context = {
         "form": form,
         "pk": pk,
