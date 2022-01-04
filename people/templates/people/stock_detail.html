@@ -23,24 +23,23 @@
     }
     h1{
         position: relative;
-        left: 25px;
+        font-size: 34px;
+        top: 175px;
+        left: 800px;
         font-family: monospace;
-        padding-top: 10px;
     }
     form{
         position: relative;
-        font-size: 25px;
+        font-size: 15px;
         font-family: monospace;
-        left: 25px;
-        width: 600px;
+        top: 200px;
+        left: 600px;
+        width: 900px;
+        height: 300px;
+        #border: 5px solid black;
+        
     }
-    h2{
-        position: relative;
-        font-size: 20px;
-        font-family: monospace;
-        padding-top: 35px;
-        padding-left: 10px;
-    }
+    
     p1{
         font-size: 23px;
         padding-left: 15px;
@@ -48,6 +47,39 @@
         text-transform: uppercase;
     }
     
+    #inputContent{
+        position: absolute:
+        top: 0px;
+        left: 0px;
+        width: 900px;
+        height: 70px;
+        text-align: center;
+        #border: 5px solid green;
+
+    }
+
+    #allSelect{
+        position: absolute;
+        width: 1600px;
+        height: 700px;
+        #border: 5px solid blue;
+    }
+
+    #allOptions{
+        position: absolute;
+        right: 40px;
+        top: 100px;
+        width: 390px;
+        height: 150px;
+        text-align: center;
+        font-family: arial;
+    }
+
+    #paragraph{
+        text-align: center;
+        font-family: arial;
+    }
+
     </style>
 
 
@@ -57,19 +89,36 @@
             {% include "people/navbar2.html" %}
         </div>
 
-        <h1><u>Select a stock</u></h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit</button>
-        </form>
+        <div id="allSelect">
+            <h1><span class="badge bg-secondary">Select Stock</span></h1>
 
-        <h2><u>Your Options</u>:</h2>
-        <p1>
-            {% for stock in stocks %}
-            {{ stock.company_ticker }}
-            {% endfor %}
-        </p1>
+            <form method="post">
+                {% csrf_token %}
+                <div id="inputContent">
+                    <div class="row mb-3">
+                        <label for="colFormLabel" class="col-sm-2 col-form-label">Company Ticker:</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="colFormLabel" name="ticker" placeholder="ex) aapl">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" name="detailStock" value="detailStock" class="btn btn-outline-success">Submit</button>
+                    
+                
+            </form>
+        </div>
+
+        <div id="allOptions">
+            <h2><span class="badge bg-success">Your Current Positions</span></h2>
+            <div id="paragraph">
+                <p1>
+                    {% for stock in stocks %}
+                    {{ stock.company_ticker }}
+                    {% endfor %}
+                </p1>
+            </div>
+        </div>
+        
         
         <!-- Option 1: Bootstrap Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

@@ -154,12 +154,15 @@ def stock_detail(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
     form = detailStockForm()
     if request.method == "POST":
-        print('Reciving a post request')
-        form = deleteStockForm(request.POST)
-        if form.is_valid():
-            global company_ticker
-            company_ticker = form.cleaned_data['company_ticker']
-            return redirect("/people/" + str(pk) + "/detail/view/")
+        print(request.POST)
+        if request.POST.get("detailStock"): # check that request is from corrent button
+            if len(request.POST.get("ticker")) != 0:
+                print("all items were given")
+                global company_ticker
+                company_ticker = request.POST.get("ticker")
+                return redirect("/people/" + str(pk) + "/detail/view/")
+            else:
+                print("not all items given")
             
     context = {
         'form': form,
