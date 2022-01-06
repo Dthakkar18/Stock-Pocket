@@ -20,26 +20,26 @@
             left: 35px;
             font-family: monospace;
             font-size: 40px;
-            width: 500px;
             text-transform: capitalize;
+            #border: 5px solid green;
             
         }
         h2{
             position: absolute;
-            top: 120px;
+            top: 0px;
             left: 35px;
             font-family: monospace;
             font-size: 30px;
-            width: 600px;
-
+            #border: 5px solid green;
         }
         p1{
             position: absolute;
-            top: 170px;
+            top: 55px;
             left: 35px;
             font-family: monospace;
             font-size: 20px;
             width: 550px;
+            #border: 5px solid green;
         }
         h3{
             position: absolute;
@@ -127,63 +127,98 @@
             width: 600px;
             text-transform: capitalize;
         }
+
+        #stockHeader{
+            position: relative;
+            border: 5px solid black;
+            width:320px;
+            height: 100px;
+        }
+
+        #general{
+            position: relative;
+            border: 5px solid blue;
+            width: 650px;
+            height: 620px;
+        }
+
+        #revenue{
+            position: relative;
+            border: 
+
+        }
     
     </style>
 
     <body>
         <a href="/people/{{ pk }}/detail">Back to Stock Selection</a>
-        <h1><u>{{ stock.company_name }} stock</u></h1>
-        <h2>General Info</h2>
-        <p1>
-            {% for item in gen_info %}
-            <ul>{{ item }}</ul>
-            {% endfor %}
-            <ul>Sector: {{ sector }}</ul>
-            <ul>Industry: {{ industry }}</ul>
-            <ul>Full Time Employees: {{ employees }}</ul>
-            <ul>Yahoo score: {{ buy_num }} --> {{ buy_word }}</ul>
-        </p1>
+        <div id="stockHeader">
+            <h1><u>{{ stock.company_name }} stock</u></h1>
+        </div>
 
-        <h3>Revenues</h3>
-        <p2>
-            {% for item in revenues %}
-            <ul>{{ item }}</ul>
-            {% endfor %}
+        <div id="general">
+            <h2>General Info</h2>
+            <p1>
+                {% for item in gen_info %}
+                <ul>{{ item }}</ul>
+                {% endfor %}
+                <ul>Sector: {{ sector }}</ul>
+                <ul>Industry: {{ industry }}</ul>
+                <ul>Full Time Employees: {{ employees }}</ul>
+                <ul>Yahoo score: {{ buy_num }} --> {{ buy_word }}</ul>
+            </p1>
+        </div>
 
-        </p2>
+        <div id="revAndProf">
+            <div id="revenue">
+                <h3>Revenues</h3>
+                <p2>
+                    {% for item in revenues %}
+                    <ul>{{ item }}</ul>
+                    {% endfor %}
 
-        <h4>Gross Profit</h4>
-        <p3>
-            {% for item in profits %}
-            <ul>{{ item }}</ul>
-            {% endfor %}
+                </p2>
+            </div>
 
-        </p3>
+            <div id="profit">
+                <h4>Gross Profit</h4>
+                <p3>
+                    {% for item in profits %}
+                    <ul>{{ item }}</ul>
+                    {% endfor %}
 
-        <h5>About</h5>
-        <p4>
-        {{ summary }}
-        </p4>
+                </p3>
+            </div>
+        </div>
 
-        <h6>Suggestions</h6>
-        <p5>
-            {% for ticker in suggestion_tickers %}
-            <ul><a href="https://finance.yahoo.com/quote/{{ ticker }}?p={{ ticker }}">{{ ticker }}</a> --></ul>
-            {% endfor %}
-        </p5>
+        <div id="about">
+            <h5>About</h5>
+            <p4>
+            {{ summary }}
+            </p4>
+        </div>
 
-        <p6>
-            {% for price in suggestion_prices %}
-            <ul>{{ price }}</ul>
-            {% endfor %}
+        <div id="suggestions">
+            <h6>Suggestions</h6>
+            <p5>
+                {% for ticker in suggestion_tickers %}
+                <ul><a href="https://finance.yahoo.com/quote/{{ ticker }}?p={{ ticker }}">{{ ticker }}</a> --></ul>
+                {% endfor %}
+            </p5>
 
-        </p6>
+            <p6>
+                {% for price in suggestion_prices %}
+                <ul>{{ price }}</ul>
+                {% endfor %}
 
-        <p7>
-            {% for name in suggestion_names %}
-            <ul>{{ name }}</ul>
-            {% endfor %}
-        </p7>
+            </p6>
+
+            <p7>
+                {% for name in suggestion_names %}
+                <ul>{{ name }}</ul>
+                {% endfor %}
+            </p7>
+        </div>
 
 
     </body>
