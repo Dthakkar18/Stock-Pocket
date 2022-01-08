@@ -7,8 +7,34 @@ import time
 
 
 def generalInfo(ticker):
-	
-	def seperator(word):
+	html_text = requests.get(f'https://finance.yahoo.com/quote/{ticker.upper()}/').text
+	soup = BeautifulSoup(html_text, 'lxml')
+	the_tr = soup.find_all('tr')
+	the_items = []
+	the_date = []
+	finished = []
+	the_items.append(the_tr[0].text) #previous close
+	the_items.append(the_tr[1].text) #open
+	the_items.append(the_tr[4].text) #day range
+	the_items.append(the_tr[6].text) #volume
+	the_items.append(the_tr[8].text) #market cap
+	the_items.append(the_tr[10].text) #pe ratio
+	the_items.append(the_tr[13].text) #dividend val
+	the_date.append(the_tr[12].text) #earnings
+	the_date.append(the_tr[14].text) #ex dividend date
+	for item in the_items:
+		new_item = seperator(item)
+		finished.append(new_item)
+	for date in the_date:
+		new_date = seperator(date)
+		colon = new_date.index(":")
+		start_index = colon - 4
+		the_date = new_date[:start_index] + ': ' + new_date[start_index:colon] + new_date[colon+2:]
+		finished.append(the_date)
+	return finished
+
+#helper for generalInfo
+def seperator(word):
 		counter = 0  #gets index for where the number is in text --> (open120)
 		for char in word:
 			if char.isdigit() == False:
@@ -24,34 +50,6 @@ def generalInfo(ticker):
 				word = word.replace(i, '')
 			return (word + ": N/A")	
 
-
-	html_text = requests.get(f'https://finance.yahoo.com/quote/{ticker.upper()}/').text
-	soup = BeautifulSoup(html_text, 'lxml')
-	span1 = soup.find("span", {"class": "Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)"})
-	the_tr = soup.find_all('tr')
-	the_items = []
-	the_date = []
-	finished = []
-	the_items.append(the_tr[0].text) #previous close
-	the_items.append(the_tr[1].text) #open
-	the_items.append(the_tr[4].text) #day range
-	the_items.append(the_tr[6].text) #volume
-	the_items.append(the_tr[8].text) #market cap
-	the_items.append(the_tr[10].text) #pe ratio
-	the_items.append(the_tr[13].text) #dividend val
-	the_date.append(the_tr[12].text) #earnings
-	the_date.append(the_tr[14].text) #ex dividend date
-	#print(f'Current Price: {span1.text}') #current price
-	for item in the_items:
-		new_item = seperator(item)
-		finished.append(new_item)
-	for date in the_date:
-		new_date = seperator(date)
-		colon = new_date.index(":")
-		start_index = colon - 4
-		the_date = new_date[:start_index] + ': ' + new_date[start_index:colon] + new_date[colon+2:]
-		finished.append(the_date)
-	return finished
 
 def showRevenue(Name, Ticker):
 	html_text = requests.get(f'https://www.macrotrends.net/stocks/charts/{Ticker.upper()}/{Name.lower()}/revenue').text
@@ -164,6 +162,16 @@ def point(number):
 		text = str(number)
 		return text.index('.')	
 
+def dividendPercentage(Tickers, Companies, Amounts):
+	all = [] # all dividends for this year
+	for i in range(len(Tickers)):
+		html_text = requests.get(f'https://www.macrotrends.net/stocks/charts/{Tickers[i].upper()}/{Companies[i].lower()}/dividend-yield-history').text
+		soup = BeautifulSoup(html_text, 'lxml')
+		div = soup.select_one('div[style="background-color:#fff; margin: 0px 0px 20px 0px; padding:20px 30px; border:1px solid #dfdfdf;"]')
+		percentage = div.text[-7:-3]
+		amount = float(percentage) * Amounts[i] / 100
+		all.append(round(amount, 2))
+	return all
 
 if __name__ == '__main__':
 	print('hello')

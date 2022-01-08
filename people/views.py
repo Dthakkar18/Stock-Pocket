@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin # not using this right
 from django.views import generic
 from .models import Stock, Agent, User
 from .forms import addStockForm, updateStockForm, deleteStockForm, detailStockForm, CustomUserCreationForm, loginForm
-from .stock_function import generalInfo, showRevenue, showGrossProfit, purchase, summary, similar_tickers, similar_names, similar_prices, current_change
+from .stock_function import generalInfo, showRevenue, showGrossProfit, purchase, summary, similar_tickers, similar_names, similar_prices, current_change, dividendPercentage
 
 # Create your views here.
 
@@ -30,20 +30,24 @@ def landing_page(request):
 def home_page(request, pk):
     agent = Agent.objects.get(id=pk)
     stocks = Stock.objects.filter(agent_id=pk)
-    amount = []
-    names = []
+    amountIn = []
+    tickers = []
     shares = []
-    for i in stocks:
-        amount.append(round(i.shares * i.avg_share_price,2))
-        names.append(i.company_ticker.upper())
-        shares.append(i.shares)
-    current_prices = current_change(names, shares, amount)
+    company = []
+    for i in range(len(stocks)):
+        amountIn.append(round(stocks[i].shares * stocks[i].avg_share_price,2))
+        tickers.append(stocks[i].company_ticker.upper())
+        shares.append(stocks[i].shares)
+        company.append(stocks[i].company_name)
+    dividendAmounts = dividendPercentage(tickers, company, amountIn)
+    current_prices = current_change(tickers, shares, amountIn)
     context = {
         "agent": agent,
         "stocks": stocks,
-        "amount": amount, 
-        "names": names,
+        "amountIn": amountIn, 
+        "tickers": tickers,
         "current_prices": current_prices,
+        "dividendAmounts": dividendAmounts,
         "pk": pk
     }
     return render(request, "people/home_page.html", context)
