@@ -132,19 +132,40 @@
             top: 0px;
             left: 160px;
             background-color: #9AC791;
-            
+            width: 100px;
         }
+
         #changeTable2 tbody{
             position: absolute;
             top: 35px;
             left: 150px;
         }
 
+        #changeTable3 thead{
+            position: absolute;
+            top: 0px;
+            right: 210px;
+            background-color: #9AC791;
+            width: 230px;
+        }
+
+        #changeTable3 tbody{
+            position: absolute;
+            top: 35px;
+            right: 305px;
+        }
+
+        #dividend{
+            color: white;
+        }
+
+
         #tables{
             position: relative;
             top: 120px;
-            width: 300px;
-            height: 150px;
+            width: 700px;
+            height: 300px;
+            #border: 3px solid black;
         }
 
     
@@ -226,15 +247,13 @@
 
         </script>
         
-        <!-- Price Change Table also add the price part too now current_prices -->
-        
-
+        <!-- Price Change Table  (also add total up/down and total dividend amounts)-->
         <div id="tables">
             <div class='tableOne'>
                 <table id="changeTable" class="table table-borderless">
                     <thead>
                         <tr>
-                        <th id="ticker" scope="col">Ticker</th>
+                            <th id="ticker" scope="col">Ticker</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -254,7 +273,7 @@
                 <table id="changeTable2" class="table table-borderless">
                     <thead>
                         <tr>
-                        <th id="price" scope="col">Price</th>
+                            <th id="price" scope="col">Price</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -262,6 +281,25 @@
                         {% for price in current_prices %}
                             <tr>
                                 <td>{{ price }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class='tableThree'>
+                <table id="changeTable3" class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th id="dividend" scope="col">Dividend Amount This Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for value in dividendAmounts %}
+                            <tr>
+                                <td>{{ value }}</td>
                             </tr>
                         {% endfor %}
 

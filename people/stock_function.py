@@ -143,17 +143,17 @@ def current_change(Tickers, shares, amounts):
 	#adds string version of num to up_down
 	for i in range(len(currentP)):
 		num = round((currentP[i])*shares[i] - amounts[i], 2)
-		index = point(num)
-		if (len(str(num)) - 1) - index != 2: #if it needs a zero at the end 
+		index = point(num) + 1 # to not include the "." in the substring length
+		if len(str(num)[index:]) != 2: # for the numbers that are not to the 0.00 format
 			if num > 0: #if it should have "+"
-				up_down.append("+" + str(num) + "0") 
+				up_down.append("+ $" + str(num) + "0") 
+			else: #if it should have "-"
+				up_down.append("- $" + str(num)[1:] + "0") # gets rid of the neg in the front of the number
+		else: # for numbers that are in the right format
+			if num > 0:
+				up_down.append("+ $" + str(num))
 			else:
-				up_down.append(str(num) + "0")
-		else:
-			if num > 0: #if it should have "+"
-				up_down.append("+" + str(num))
-			else:
-				up_down.append(str(num))
+				up_down.append("- $" + str(num)[1:]) # gets rid of the neg in the front of the number
 			
 	return up_down
 
@@ -163,15 +163,20 @@ def point(number):
 		return text.index('.')	
 
 def dividendPercentage(Tickers, Companies, Amounts):
-	all = [] # all dividends for this year
+	correctFormatValues = [] # all dividends for this year
 	for i in range(len(Tickers)):
 		html_text = requests.get(f'https://www.macrotrends.net/stocks/charts/{Tickers[i].upper()}/{Companies[i].lower()}/dividend-yield-history').text
 		soup = BeautifulSoup(html_text, 'lxml')
 		div = soup.select_one('div[style="background-color:#fff; margin: 0px 0px 20px 0px; padding:20px 30px; border:1px solid #dfdfdf;"]')
 		percentage = div.text[-7:-3]
-		amount = float(percentage) * Amounts[i] / 100
-		all.append(round(amount, 2))
-	return all
+		amount = float(percentage) * Amounts[i] / 100 
+		amount = round(amount, 2)
+		index = point(amount) + 1 # to not include the "." in the substring length
+		if len(str(amount)[index:]) != 2: # for the numbers that are not to the 0.00 format
+			correctFormatValues.append("$" + str(amount) + "0")
+		else: # for numbers that are already the right format
+			correctFormatValues.append("$" + str(amount))
+	return correctFormatValues
 
 if __name__ == '__main__':
 	print('hello')
