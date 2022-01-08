@@ -50,9 +50,9 @@
         top: 0px;
         left: 0px;
         width: 900px;
-        height: 70px;
+        height: 120px;
         text-align: center;
-        #border: 5px solid green;
+        #border: 3px solid green;
 
     }
 
@@ -93,6 +93,12 @@
             <form method="post">
                 {% csrf_token %}
                 <div id="inputContent">
+                    <div class="row mb-3">
+                        <label for="colFormLabel" class="col-sm-2 col-form-label">Company Name:</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="colFormLabel" name="name" placeholder="ex) Apple">
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <label for="colFormLabel" class="col-sm-2 col-form-label">Company Ticker:</label>
                         <div class="col-sm-5">

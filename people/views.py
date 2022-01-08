@@ -160,10 +160,11 @@ def stock_detail(request, pk):
     if request.method == "POST":
         print(request.POST)
         if request.POST.get("detailStock"): # check that request is from corrent button
-            if len(request.POST.get("ticker")) != 0:
+            if len(request.POST.get("ticker")) != 0 and len(request.POST.get("name")) != 0: #making sure its vaild form
                 print("all items were given")
-                global company_ticker
+                global company_ticker, company_name
                 company_ticker = request.POST.get("ticker")
+                company_name = request.POST.get("name")
                 return redirect("/people/" + str(pk) + "/detail/view/")
             else:
                 print("not all items given")
@@ -178,10 +179,9 @@ def stock_detail(request, pk):
 
 @login_required(login_url='/login/')
 def detail_view(request, pk):
-    stock = Stock.objects.get(agent_id=pk, company_ticker=company_ticker)
     gen_info = generalInfo(company_ticker)
-    revenues = showRevenue(stock.company_name, company_ticker)
-    profits = showGrossProfit(stock.company_name, company_ticker)
+    revenues = showRevenue(company_name, company_ticker)
+    profits = showGrossProfit(company_name, company_ticker)
     should_buy = purchase(company_ticker)
     comp_info = summary(company_ticker)
     suggestion_ticker = similar_tickers(company_ticker)
@@ -201,7 +201,7 @@ def detail_view(request, pk):
         'suggestion_names': suggestion_names,
         'suggestion_prices': suggestion_prices,
         'pk': pk,
-        'stock': stock
+        "company_name": company_name
     }
     return render(request, "people/stock_detail_view.html", context)
 
