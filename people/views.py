@@ -1,13 +1,13 @@
-from django.contrib import auth
-from django.db.models.fields import NullBooleanField
+from django.contrib import auth # not using this right now
+from django.db.models.fields import NullBooleanField # not using this right now 
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse, response
-from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, response # not using this right now
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin # not using this right now
+from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import Stock, Agent, User
-from .forms import addStockForm, updateStockForm, deleteStockForm, detailStockForm, CustomUserCreationForm, loginForm
+from .forms import CustomUserCreationForm, loginForm
 from .stock_function import generalInfo, showRevenue, showGrossProfit, purchase, summary, similar_tickers, similar_names, similar_prices, current_change, dividendPercentage
 
 # Create your views here.
@@ -21,12 +21,18 @@ class SignupView(generic.CreateView):
         return reverse("login")
 
 
-@login_required(login_url='/login/')
 def landing_page(request):
+    if request.method == "POST":
+        print(request.POST)
+        if request.POST.get("toSignup"):
+            return redirect("/signup")
+        else:
+            return redirect("/login")
+
     return render(request, "people/landing_page.html")
 
 
-@login_required(login_url='/login/')
+@login_required
 def home_page(request, pk):
     agent = Agent.objects.get(id=pk)
     stocks = Stock.objects.filter(agent_id=pk)
@@ -74,10 +80,9 @@ def login_view(request):
 
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/login')
 def stock_add_delete(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
-    form = addStockForm()
     if request.method == "POST":
         print(request.POST)
         if request.POST.get("addStock"): # if request from adding form
@@ -117,17 +122,15 @@ def stock_add_delete(request, pk):
                 print("not all content provided")
 
     context = {
-        "form": form, #might not need it now cause we created custom one 
         "pk": pk,
         'stocks': stocks
     }
     return render(request, "people/stock_add_delete.html", context)
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/login')
 def stock_update(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
-    form = updateStockForm()
     if request.method == "POST":
         print(request.POST)
         if request.POST.get("updateStock"): # check that request is from correct button
@@ -146,17 +149,15 @@ def stock_update(request, pk):
                 print("not all items given")
  
     context = {
-        "form": form,
         "pk": pk,
         'stocks': stocks
     }
     return render(request, "people/stock_update.html", context)
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/login')
 def stock_detail(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
-    form = detailStockForm()
     if request.method == "POST":
         print(request.POST)
         if request.POST.get("detailStock"): # check that request is from corrent button
@@ -170,14 +171,13 @@ def stock_detail(request, pk):
                 print("not all items given")
             
     context = {
-        'form': form,
         'pk': pk,
         'stocks': stocks
     }
     return render(request, "people/stock_detail.html", context)
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/login')
 def detail_view(request, pk):
     gen_info = generalInfo(company_ticker)
     revenues = showRevenue(company_name, company_ticker)

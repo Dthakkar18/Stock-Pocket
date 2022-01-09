@@ -119,21 +119,29 @@
                 a simple layout with no confusing charts or graphs!
             </p2>
         </div>
+
         <div id="login">
-            <p3> 
-                If you are a current member go ahead and login below!
-            </p3>
-            <p6>
-                <span class="badge rounded-pill bg-light text-dark"><a href="/login/">Login</a></span>
-            </p6>
+            <form method="post" id="toLogin">
+                {% csrf_token %}
+                <p3> 
+                    If you are a current member go ahead and login below!
+                </p3>
+                <p6>
+                    <button type="submit" name="toLogin" value="toLogin" class="btn btn-outline-success">Login</button>
+                </p6>
+            </form>
         </div>
+
         <div id="signUp">
-            <p4> 
-                First time here? No worries just fill our the sign up form!
-            </p4>
-            <p5>
-                <span class="badge rounded-pill bg-light text-dark"><a href="/signup/">Sign up</a></span>
-            </p5>
+            <form method="post" id="toSignup">
+                {% csrf_token %}
+                <p4> 
+                    First time here? No worries just fill our the sign up form!
+                </p4>
+                <p5>
+                    <button type="submit" name="toSignup" value="toSignup" class="btn btn-outline-success">Sign Up</button>
+                </p5>
+            </form>
         </div>
 
 
