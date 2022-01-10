@@ -60,21 +60,22 @@ def home_page(request, pk):
 
 
 def login_view(request):
-    form = loginForm
-    if request.method == "POST":
-        form = loginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                id = User.objects.get(username=username)
-                return redirect("/people/" + str(id.id))
-            else:
-                return redirect("/login")
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST.get("login"): # if login button pressed
+            if len(request.POST.get("username")) != 0 and len(request.POST.get("password")) != 0:
+                print("all sections filled")
+                username = request.POST.get("username")
+                password = request.POST.get("password")
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    id = User.objects.get(username=username)
+                    return redirect("/people/" + str(id.id))
+                else:
+                    return redirect("/login")
+
     context = {
-        'form': form
     }
     return render(request, "registration/login.html", context)
 

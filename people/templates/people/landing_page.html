@@ -90,7 +90,7 @@
     
     #login{
         position: relative;
-        border: 5px solid black;
+        #border: 5px solid black;
         top: 350px;
         left: 200px;
         width: 470px;
@@ -98,7 +98,7 @@
     }
     #signUp{
         position: relative;
-        border: 5px solid black;
+        #border: 5px solid black;
         top: 150px;
         left: 1200px;
         width: 470px;
@@ -127,7 +127,7 @@
                     If you are a current member go ahead and login below!
                 </p3>
                 <p6>
-                    <button type="submit" name="toLogin" value="toLogin" class="btn btn-outline-success">Login</button>
+                    <button type="submit" name="toLogin" value="toLogin" class="btn btn-secondary">Login</button>
                 </p6>
             </form>
         </div>
@@ -136,10 +136,10 @@
             <form method="post" id="toSignup">
                 {% csrf_token %}
                 <p4> 
-                    First time here? No worries just fill our the sign up form!
+                    First time here? No worries just fill out the sign up form!
                 </p4>
                 <p5>
-                    <button type="submit" name="toSignup" value="toSignup" class="btn btn-outline-success">Sign Up</button>
+                    <button type="submit" name="toSignup" value="toSignup" class="btn btn-secondary">Sign Up</button>
                 </p5>
             </form>
         </div>
