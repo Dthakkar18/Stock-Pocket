@@ -81,7 +81,7 @@ def login_view(request):
 
 
 
-@login_required(login_url='/login')
+@login_required
 def stock_add_delete(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
     if request.method == "POST":
@@ -156,7 +156,7 @@ def stock_update(request, pk):
     return render(request, "people/stock_update.html", context)
 
 
-@login_required(login_url='/login')
+@login_required
 def stock_detail(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
     if request.method == "POST":
@@ -178,7 +178,7 @@ def stock_detail(request, pk):
     return render(request, "people/stock_detail.html", context)
 
 
-@login_required(login_url='/login')
+@login_required
 def detail_view(request, pk):
     gen_info = generalInfo(company_ticker)
     revenues = showRevenue(company_name, company_ticker)
