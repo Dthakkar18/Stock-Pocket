@@ -24,13 +24,22 @@
     }
     h1{
         position: absolute;
-        left: 745px;
+        left: 625px;
         top: 55px;
         font-family: monospace;
-        font-size: 35px;
-        width: 460px;
+        font-size: 55px;
+        width: 700px;
         text-align: center;
+        #border: 2px solid grey;
     }
+
+    #header{
+        position: relative;
+        #border: 2px solid black;
+        height: 200px;
+        background-color: #9AC791;
+    }
+
     p{
         position: relative;
         top: 150px;
@@ -53,70 +62,97 @@
     }
     p3{
         position: absolute;
-        text-align: center;
+        text-align: left;
         padding: 5px;
-        top: 0px;
-        left: 0px;
-        font-family: monospace;
-        font-size: 20px;
+        top: 55px;
+        left: 15px;
+        font-family: arial;
+        font-weight: lighter;
+        font-size: 19px;
         width: 460px;
         color: black;
     }
+
+    h5{
+        position: absolute;
+        top: 20px;
+        left: 15px;
+        font-weight: 500;
+    }
+
     p4{
         position: absolute;
-        text-align: center;
+        text-align: left;
         padding: 5px;
-        top: 0px;
-        left: 0px;
-        font-family: monospace;
-        font-size: 20px;
+        top: 55px;
+        left: 15px;
+        font-family: arial;
+        font-weight: lighter;
+        font-size: 19px;
         width: 460px;
         color: black;
     }
+
+    h6{
+        position: absolute;
+        top: 20px;
+        left: 15px;
+        font-weight: 500;
+        color: black;
+    }
+
     p5{
         position: absolute;
-        top: 70px;
-        left: 190px;
+        top: 130px;
+        left: 15px;
         font-family: monospace;
         font-size: 25px;
     }
     p6{
         position: absolute;
-        top: 70px;
-        left: 190px;
+        top: 130px;
+        left: 15px;
         font-family: monospace;
         font-size: 25px;
     }
     
     #login{
         position: relative;
-        #border: 5px solid black;
-        top: 350px;
+        #border: 2px solid grey;
+        top: 210px;
         left: 200px;
         width: 470px;
         height: 200px;
+        background-color: #9AC791;
     }
     #signUp{
         position: relative;
-        #border: 5px solid black;
-        top: 150px;
+        #border: 2px solid grey;
+        top: 10px;
         left: 1200px;
-        width: 470px;
+        width: 475px;
         height: 200px;
+        background-color: #9AC791;
     }
 
     #cardOne{
         position: relative;
         left: 25px;
-        background-color: #A3EBB1;
+        background-color: #9AC791;
+        border: 2px solid grey;
+        height: 170px;
         
     }
 
     </style>
 
     <body>
-        <h1>Welcome to <span class="badge bg-success">Stock Pocket</span></h1>
-        <div>
+        <div id="header" class="shadow rounded">
+            <h1>Welcome to <span class="shadow rounded badge bg-success">Stock Pocket</span></h1>
+        </div>
+        <!--
+            
+            <div>
             <p> 
                 Here you can create an easy portfolio with your favorite stocks just by adding
                 simple information.
@@ -127,36 +163,31 @@
             </p2>
         </div>
 
-
-        <div id="cardOne" class="card" style="width: 20rem;">
-            <div class="card-body">
-                <h5 class="card-title">Login</h5>
-                <p7 class="card-text">If you are a current member go ahead and login below!</p>
-                <a href="/login" class="card-link">Click Here</a>
-            </div>
-        </div>
+        -->
         
 
-        <div id="login">
+        <div id="login" class="shadow-lg rounded">
             <form method="post" id="toLogin">
                 {% csrf_token %}
+                <h5>Login</h5>
                 <p3> 
                     If you are a current member go ahead and login below!
                 </p3>
                 <p6>
-                    <button type="submit" name="toLogin" value="toLogin" class="btn btn-secondary">Login</button>
+                    <button type="submit" name="toLogin" value="toLogin" class="shadow-sm btn btn-secondary">Click Here</button>
                 </p6>
             </form>
         </div>
 
-        <div id="signUp">
+        <div id="signUp" class="shadow-lg rounded">
             <form method="post" id="toSignup">
                 {% csrf_token %}
+                <h6 style="font-size: 18px;">Sign Up</h6>
                 <p4> 
                     First time here? No worries just fill out the sign up form!
                 </p4>
                 <p5>
-                    <button type="submit" name="toSignup" value="toSignup" class="btn btn-secondary">Sign Up</button>
+                    <button type="submit" name="toSignup" value="toSignup" class="shadow-sm btn btn-secondary">Click Here</button>
                 </p5>
             </form>
         </div>
