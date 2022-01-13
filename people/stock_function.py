@@ -1,9 +1,6 @@
-from os import spawnl
-from people.forms import updateStockForm
 from bs4 import BeautifulSoup
 import requests
-from requests_html import HTMLSession 
-import time
+import yfinance as yf
 
 
 def generalInfo(ticker):
@@ -178,5 +175,43 @@ def dividendPercentage(Tickers, Companies, Amounts):
 			correctFormatValues.append("$" + str(amount))
 	return correctFormatValues
 
+# returns dictionary of years and dividend amounts
+def dividendGrowth(Ticker):
+	stock = yf.Ticker(Ticker.upper())
+
+	series = stock.dividends # returns pandas series
+	quarterAmounts = series.values # returns list
+	fullDates = series.keys() # returns list of full dates
+
+	quarterYears = []
+	annualYears = []
+	for date in fullDates:
+		theYear = str(date)[:4] # only gets the year from the time stamp
+		quarterYears.append(theYear)
+		if theYear not in annualYears:
+			annualYears.append(theYear)
+
+	annualAmounts = []
+	bridge = 0 # index of last kind of that year
+	for i in range(len(annualYears)):
+		currYear = annualYears[i]
+
+		# finding number of payouts for that year
+		counter = 0
+		for quarter in quarterYears: #only checks from cut off to 5 more
+			if currYear == quarter:
+				counter += 1
+
+		amount = 0
+		for num in quarterAmounts[bridge : bridge + counter]: # only goes over right section of list
+			amount += float(num)
+
+		annualAmounts.append(round(amount, 2))
+		bridge += counter
+
+	yearAndAmount = {"years": annualYears, "amounts": annualAmounts}
+	return yearAndAmount
+
+
 if __name__ == '__main__':
-	print('hello')
+	print('hello, running function file')
