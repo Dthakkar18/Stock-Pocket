@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import Stock, Agent, User
 from .forms import CustomUserCreationForm, loginForm
-from .stock_function import generalInfo, showRevenue, showGrossProfit, purchase, summary, similar_tickers, similar_names, similar_prices, current_change, dividendPercentage
+from .stock_function import generalInfo, showRevenue, showGrossProfit, purchase, summary, similar_tickers, similar_names, similar_prices, current_change, dividendPercentage, dividendGrowth
 
 # Create your views here.
 
@@ -188,6 +188,9 @@ def detail_view(request, pk):
     suggestion_ticker = similar_tickers(company_ticker)
     suggestion_names = similar_names(company_ticker)
     suggestion_prices = similar_prices(company_ticker)
+    yearAndAmount = dividendGrowth(company_ticker)
+    years = yearAndAmount.get("years")
+    amounts = yearAndAmount.get("amounts")
     context = {
         'gen_info': gen_info,
         'revenues': revenues,
@@ -201,6 +204,8 @@ def detail_view(request, pk):
         'suggestion_tickers': suggestion_ticker,
         'suggestion_names': suggestion_names,
         'suggestion_prices': suggestion_prices,
+        'years': years,
+        'amounts': amounts,
         'pk': pk,
         "company_name": company_name
     }

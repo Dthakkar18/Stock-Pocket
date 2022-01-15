@@ -196,7 +196,7 @@
             top: 1000px;
             left: 1400px;
             width: 400px;
-            height: 300px;
+            height: 250px;
             border: 3px solid black;
         }
 
@@ -204,6 +204,12 @@
             position: absolute;
             top: 25px;
             right: 25px;
+        }
+
+        canvas{
+            position: absolute;
+            top: 1500px;
+            left: 25px;
         }
     
     </style>
@@ -283,6 +289,33 @@
         </div>
 
         <!-- Dividend graph -->
+        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+        
+
+        <script>
+            var xValues = [50,60,70,80,90,100,110,120,130,140,150]; // years
+            var yValues = [7,8,8,9,9,9,10,11,14,14,15]; // amounts
+
+            new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: {display: false},
+                scales: {
+                    yAxes: [{ticks: {min: 6, max:16}}],
+                }
+            }
+            });
+        </script>
 
 
         <!-- Option 1: Bootstrap Bundle with Popper -->
