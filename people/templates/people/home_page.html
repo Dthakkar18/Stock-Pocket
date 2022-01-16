@@ -224,9 +224,9 @@
             type: 'pie',
             data: {
                 datasets: [{
-                data: {{ amountIn|safe }},
-                backgroundColor: ['#3E5435', '#9AC791', '#8ABD91', '#228B22', '#008000', '#097969', '#AFE1AF', '#50C878', '#5F8575', '#355E3B', '#2AAA8A'],
-                label: 'Ticker'
+                    data: {{ amountIn|safe }},
+                    backgroundColor: ['#3E5435', '#9AC791', '#8ABD91', '#228B22', '#008000', '#097969', '#AFE1AF', '#50C878', '#5F8575', '#355E3B', '#2AAA8A'],
+                    label: 'Ticker'
                 }],
                 labels: {{ tickers|safe }}
             },
