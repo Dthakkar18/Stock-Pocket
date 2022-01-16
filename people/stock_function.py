@@ -54,9 +54,15 @@ def showRevenue(Name, Ticker):
 	table = soup.find('tbody')
 	each = table.find_all('tr')
 	revenues = []
+	years = []
 	for i in each:
-		revenues.append(i.text.replace("\n", " "))
-	return revenues
+		line = i.text.replace("\n", "")
+		line = line.replace(",", "")
+		years.append(line[:4])
+		revenues.append(line[5:])
+
+	yearsAndRevenues = {"years": years[::-1], "revenues": revenues[::-1]}
+	return yearsAndRevenues
 
 def showGrossProfit(Name, Ticker):
 	html_text = requests.get(f'https://www.macrotrends.net/stocks/charts/{Ticker.upper()}/{Name.lower()}/gross-profit').text
@@ -64,9 +70,15 @@ def showGrossProfit(Name, Ticker):
 	table = soup.find('tbody')
 	each = table.find_all('tr')
 	profits = []
+	years = []
 	for i in each:
-		profits.append(i.text.replace("\n", " "))
-	return profits
+		line = i.text.replace("\n", "")
+		line = line.replace(",", "")
+		years.append(line[:4])
+		profits.append(line[5:])
+
+	yearsAndProfits = {"years": years[::-1], "profits": profits[::-1]}
+	return yearsAndProfits
 
 def summary(Ticker):
 	html_text = requests.get(f'https://finance.yahoo.com/quote/{Ticker.upper()}?p={Ticker.upper()}').text

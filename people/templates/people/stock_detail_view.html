@@ -12,6 +12,7 @@
 
         <!-- For js charts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
         
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -105,7 +106,7 @@
             position: absolute;
             top: 45px;
             left: 25px;
-            width: 800px;
+            width: 750px;
             padding-bottom: 25px;
             font-family: monospace;
             font-size: 15px;
@@ -145,7 +146,7 @@
             right: 0px;
             font-family: monospace;
             font-size: 15px;
-            width: 230px;
+            width: 280px;
             text-transform: capitalize;
             #border: 1px solid black;
         }
@@ -186,7 +187,7 @@
         #about{
             position: absolute;
             top: 800px;
-            width: 850px;
+            width: 800px;
             height: 450px;
             border: 3px solid black;
         }
@@ -195,7 +196,7 @@
             position: relative;
             top: 1000px;
             left: 1400px;
-            width: 400px;
+            width: 450px;
             height: 250px;
             border: 3px solid black;
         }
@@ -206,7 +207,7 @@
             right: 25px;
         }
 
-        canvas{
+        #myDivChart{
             position: absolute;
             top: 1500px;
             left: 25px;
@@ -237,28 +238,31 @@
             <h7>**All financials in millions of USD**</h7>
         </div>
 
-        <div id="revAndProf">
-            <div id="revenue">
-                <h3>Revenues</h3>
-                <p2>
-                    {% for item in revenues %}
-                    <ul>{{ item }}</ul>
-                    {% endfor %}
+        <!--
+            <div id="revAndProf">
+                <div id="revenue">
+                    <h3>Revenues</h3>
+                    <p2>
+                        {% for item in revenues %}
+                        <ul>{{ item }}</ul>
+                        {% endfor %}
 
-                </p2>
+                    </p2>
+                </div>
+
+                <div id="profit">
+                    <h4>Gross Profit</h4>
+                    <p3>
+                        {% for item in profits %}
+                        <ul>{{ item }}</ul>
+                        {% endfor %}
+
+                    </p3>
+                </div>
             </div>
+        -->
 
-            <div id="profit">
-                <h4>Gross Profit</h4>
-                <p3>
-                    {% for item in profits %}
-                    <ul>{{ item }}</ul>
-                    {% endfor %}
-
-                </p3>
-            </div>
-        </div>
-
+        <!-- About senction -->
         <div id="about">
             <h5>About</h5>
             <p4>
@@ -288,23 +292,50 @@
             </p7>
         </div>
 
-        <!-- Dividend graph -->
+        <!-- Revenue graph -->
         <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-        
 
         <script>
-            var xValues = {{ years|safe }}; // years
-            var yValues = {{ amounts|safe }}; // amounts
+            var xValues = {{ revenueYears|safe }}; //years
+            var yValues = {{ revenueAmounts|safe }}; //revenues
 
             new Chart("myChart", {
+                type: "bar",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: "blue",
+                        data: yValues
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: "Revenue Growth"
+                    }
+                }
+            });
+        </script>
+
+        <!-- Dividend graph -->
+        <canvas id="myDivChart" style="width:100%;max-width:600px"></canvas>
+
+        <script>
+            var xValues = {{ dividendYears|safe }}; // years
+            var yValues = {{ dividendAmounts|safe }}; // dividends
+
+            new Chart("myDivChart", {
             type: "line",
             data: {
                 labels: xValues,
                 datasets: [{
                     fill: false,
                     lineTension: 0,
-                    backgroundColor: "rgba(0,0,255,1.0)",
-                    borderColor: "rgba(0,0,255,0.1)",
+                    backgroundColor: "green",
+                    borderColor: "green",
                     data: yValues
                 }]
             },

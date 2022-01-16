@@ -181,20 +181,33 @@ def stock_detail(request, pk):
 @login_required
 def detail_view(request, pk):
     gen_info = generalInfo(company_ticker)
-    revenues = showRevenue(company_name, company_ticker)
-    profits = showGrossProfit(company_name, company_ticker)
+
     should_buy = purchase(company_ticker)
     comp_info = summary(company_ticker)
     suggestion_ticker = similar_tickers(company_ticker)
     suggestion_names = similar_names(company_ticker)
     suggestion_prices = similar_prices(company_ticker)
-    yearAndAmount = dividendGrowth(company_ticker)
-    years = yearAndAmount.get("years")
-    amounts = yearAndAmount.get("amounts")
+
+    yearAndAmountRev = showRevenue(company_name, company_ticker)
+    revenueYears = yearAndAmountRev.get("years")
+    revenueAmounts = yearAndAmountRev.get("revenues")
+    print(revenueAmounts)
+    print(revenueYears)
+
+    yearAndAmountProf = showGrossProfit(company_name, company_ticker)
+    profitYears = yearAndAmountProf.get("years")
+    profitAmounts = yearAndAmountProf.get("profits")
+
+    yearAndAmountDiv = dividendGrowth(company_ticker)
+    dividendYears = yearAndAmountDiv.get("years")
+    dividendAmounts = yearAndAmountDiv.get("amounts")
+
     context = {
         'gen_info': gen_info,
-        'revenues': revenues,
-        'profits': profits,
+        'revenueYears': revenueYears,
+        'revenueAmounts': revenueAmounts,
+        'profitYears': profitYears,
+        'profitAmounts': profitAmounts,
         'buy_num': should_buy[0],
         'buy_word': should_buy[1],
         'sector': comp_info[0],
@@ -204,8 +217,8 @@ def detail_view(request, pk):
         'suggestion_tickers': suggestion_ticker,
         'suggestion_names': suggestion_names,
         'suggestion_prices': suggestion_prices,
-        'years': years,
-        'amounts': amounts,
+        'dividendYears': dividendYears,
+        'dividendAmounts': dividendAmounts,
         'pk': pk,
         "company_name": company_name
     }
