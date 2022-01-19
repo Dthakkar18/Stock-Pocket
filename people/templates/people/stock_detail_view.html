@@ -45,8 +45,9 @@
             position: absolute;
             top: 55px;
             left: 35px;
-            font-family: monospace;
+            font-family: arial;
             font-size: 20px;
+            color: green;
             width: 550px;
             #border: 5px solid green;
         }
@@ -153,7 +154,8 @@
 
         #stockHeader{
             position: absolute;
-            border: 5px solid black;
+            top: 40px;
+            #border: 5px solid black;
             width: 520px;
             height: 80px;
         }
@@ -161,41 +163,23 @@
         #general{
             position: absolute;
             top: 120px;
-            border: 5px solid blue;
+            #border: 5px solid blue;
             width: 650px;
             height: 650px;
         }
 
-        #revenue{
-            position: absolute;
-            border: 5px solid black;
-            top: 70px;
-            right: 620px;
-            width: 300px;
-            height: 850px;
-        }
-
-        #profit{
-            position: absolute;
-            top: 70px;
-            right: 220px;
-            border: 5px solid black;
-            width: 300px;
-            height: 850px;
-        }
-
         #about{
             position: absolute;
-            top: 800px;
+            top: 750px;
             width: 800px;
             height: 450px;
-            border: 3px solid black;
+            #border: 3px solid black;
         }
 
         #suggestions{
-            position: relative;
-            top: 1000px;
-            left: 1400px;
+            position: absolute;
+            top: 1500px;
+            left: 0px;
             width: 450px;
             height: 250px;
             border: 3px solid black;
@@ -207,10 +191,22 @@
             right: 25px;
         }
 
-        #myDivChart{
+        #revenueChart{
             position: absolute;
-            top: 1500px;
-            left: 25px;
+            top: 60px;
+            right: 100px;
+        }
+
+        #profitChart{
+            position: absolute;
+            top: 470px;
+            right: 100px;
+        }
+
+        #dividendChart{
+            position: absolute;
+            top: 900px;
+            right: 100px;
         }
     
     </style>
@@ -230,37 +226,12 @@
                 <ul>Sector: {{ sector }}</ul>
                 <ul>Industry: {{ industry }}</ul>
                 <ul>Full Time Employees: {{ employees }}</ul>
-                <ul>Yahoo score: {{ buy_num }} --> {{ buy_word }}</ul>
             </p1>
         </div>
 
         <div id="note">
             <h7>**All financials in millions of USD**</h7>
         </div>
-
-        <!--
-            <div id="revAndProf">
-                <div id="revenue">
-                    <h3>Revenues</h3>
-                    <p2>
-                        {% for item in revenues %}
-                        <ul>{{ item }}</ul>
-                        {% endfor %}
-
-                    </p2>
-                </div>
-
-                <div id="profit">
-                    <h4>Gross Profit</h4>
-                    <p3>
-                        {% for item in profits %}
-                        <ul>{{ item }}</ul>
-                        {% endfor %}
-
-                    </p3>
-                </div>
-            </div>
-        -->
 
         <!-- About senction -->
         <div id="about">
@@ -293,18 +264,18 @@
         </div>
 
         <!-- Revenue graph -->
-        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+        <canvas id="revenueChart" style="width:100%;max-width:700px"></canvas>
 
         <script>
             var xValues = {{ revenueYears|safe }}; //years
             var yValues = {{ revenueAmounts|safe }}; //revenues
 
-            new Chart("myChart", {
+            new Chart("revenueChart", {
                 type: "bar",
                 data: {
                     labels: xValues,
                     datasets: [{
-                        backgroundColor: "blue",
+                        backgroundColor: "green",
                         data: yValues
                     }]
                 },
@@ -320,39 +291,62 @@
             });
         </script>
 
-        <!-- Dividend graph -->
-        <canvas id="myDivChart" style="width:100%;max-width:600px"></canvas>
+        <!-- Profit graph -->
+        <canvas id="profitChart" style="width:100%;max-width:700px"></canvas>
 
         <script>
-            var xValues = {{ dividendYears|safe }}; // years
-            var yValues = {{ dividendAmounts|safe }}; // dividends
+            var xValues = {{ profitYears|safe }}; //years
+            var yValues = {{ profitAmounts|safe }}; //revenues
 
-            new Chart("myDivChart", {
-            type: "line",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    fill: false,
-                    lineTension: 0,
-                    backgroundColor: "green",
-                    borderColor: "green",
-                    data: yValues
-                }]
-            },
-            options: {
-                legend: {
-                    display: false
+            new Chart("profitChart", {
+                type: "bar",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: "green",
+                        data: yValues
+                    }]
                 },
-                scales: {
-                    yAxes: [{ticks: {min: 0.00, max: yValues[-1]}}],
-                },
-                title:{
-                    display: true,
-                    text: "Dividend Growth"
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: "Profit Growth"
+                    }
                 }
-            }
             });
         </script>
+
+        <!-- Dividend graph -->
+        <canvas id="dividendChart" style="width:100%;max-width:700px"></canvas>
+
+        <script>
+            var xValues = {{ dividendYears|safe }}; //years
+            var yValues = {{ dividendAmounts|safe }}; //dividends
+
+            new Chart("dividendChart", {
+                type: "bar",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: "green",
+                        data: yValues
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: "Dividend Growth"
+                    }
+                }
+            });
+        </script>
+
 
 
         <!-- Option 1: Bootstrap Bundle with Popper -->

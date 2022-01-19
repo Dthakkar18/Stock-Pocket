@@ -191,8 +191,6 @@ def detail_view(request, pk):
     yearAndAmountRev = showRevenue(company_name, company_ticker)
     revenueYears = yearAndAmountRev.get("years")
     revenueAmounts = yearAndAmountRev.get("revenues")
-    print(revenueAmounts)
-    print(revenueYears)
 
     yearAndAmountProf = showGrossProfit(company_name, company_ticker)
     profitYears = yearAndAmountProf.get("years")
@@ -208,8 +206,8 @@ def detail_view(request, pk):
         'revenueAmounts': revenueAmounts,
         'profitYears': profitYears,
         'profitAmounts': profitAmounts,
-        'buy_num': should_buy[0],
-        'buy_word': should_buy[1],
+        'buy_num': should_buy[0], #not using this for now
+        'buy_word': should_buy[1], #not using this for now
         'sector': comp_info[0],
         'industry': comp_info[1],
         'employees': comp_info[2],
