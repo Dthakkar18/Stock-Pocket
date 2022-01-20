@@ -224,6 +224,25 @@ def dividendGrowth(Ticker):
 	yearAndAmount = {"years": annualYears, "amounts": annualAmounts}
 	return yearAndAmount
 
+def stockPrice(Ticker, period):
+	stock = yf.Ticker(Ticker.upper())
+	hist = stock.history(period=str(period)) # {num}mo
+	closePrices = hist['Close'] # dont know how to get date from df
+
+def institutionalHolders(ticker):
+	stock = yf.Ticker(ticker.upper())
+	df = stock.institutional_holders # has holders, shares, value
+	return df # access by df['Holder'], df['Shares'], df['Value']
+
+def news(ticker):
+	stock = yf.Ticker(ticker.upper())
+	titles = []
+	links = []
+	for item in stock.news:
+		titles.append(item.get('title'))
+		links.append(item.get('link'))
+	titleAndlink = {'titles': titles, 'links': links}
+	return titleAndlink # list of dictionaries 
 
 if __name__ == '__main__':
 	print('hello, running function file')
