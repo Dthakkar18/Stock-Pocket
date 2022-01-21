@@ -181,6 +181,8 @@ def stock_detail(request, pk):
 @login_required
 def detail_view(request, pk):
     gen_info = generalInfo(company_ticker)
+    gen_info_names = gen_info.get('names')
+    gen_info_values = gen_info.get('values')
 
     should_buy = purchase(company_ticker)
     comp_info = summary(company_ticker)
@@ -201,7 +203,8 @@ def detail_view(request, pk):
     dividendAmounts = yearAndAmountDiv.get("amounts")
 
     context = {
-        'gen_info': gen_info,
+        'gen_info_names': gen_info_names,
+        'gen_info_values': gen_info_values,
         'revenueYears': revenueYears,
         'revenueAmounts': revenueAmounts,
         'profitYears': profitYears,

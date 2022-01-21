@@ -9,7 +9,10 @@ def generalInfo(ticker):
 	the_tr = soup.find_all('tr')
 	the_items = []
 	the_date = []
-	finished = []
+	#finished = []
+
+	names = []
+	values = []
 	the_items.append(the_tr[0].text) #previous close
 	the_items.append(the_tr[1].text) #open
 	the_items.append(the_tr[4].text) #day range
@@ -21,14 +24,23 @@ def generalInfo(ticker):
 	the_date.append(the_tr[14].text) #ex dividend date
 	for item in the_items:
 		new_item = seperator(item)
-		finished.append(new_item)
+		colon = new_item.index(":")
+		names.append(new_item[:colon + 1])
+		values.append(new_item[colon + 1:])
+
 	for date in the_date:
 		new_date = seperator(date)
 		colon = new_date.index(":")
-		start_index = colon - 4
-		the_date = new_date[:start_index] + ': ' + new_date[start_index:colon] + new_date[colon+2:]
-		finished.append(the_date)
-	return finished
+		if new_date[-1].isdigit() == True: # if it is 'something: 123'
+			start_index = colon - 4
+			names.append(new_date[:start_index] + ":")
+			values.append(new_date[start_index:colon] + new_date[colon+2:])
+		else: # if it is 'something: N/A'
+			names.append(new_date[:colon + 1])
+			values.append(new_date[colon + 1:])
+			
+	namesAndValues = {"names": names, "values": values}
+	return namesAndValues
 
 #helper for generalInfo
 def seperator(word):
@@ -36,16 +48,15 @@ def seperator(word):
 		for char in word:
 			if char.isdigit() == False:
 				counter += 1 #counting letters before number 
-				pass
 			else:
 				break
 		if counter != len(word):
-			return (word[0:(counter)] + ': ' + word[counter:]) #seperates --> (open: 120)
-		else:
+			return (word[0:(counter)] + ':' + word[counter:]) #seperates --> (open: 120)
+		else: # meaning that there were no numbers 
 			badChars = ['N', 'A', '(', ')', '/']
 			for i in badChars:
 				word = word.replace(i, '')
-			return (word + ": N/A")	
+			return (word + ":N/A")	
 
 
 def showRevenue(Name, Ticker):

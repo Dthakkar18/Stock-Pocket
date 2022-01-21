@@ -36,21 +36,34 @@
         h2{
             position: absolute;
             top: 0px;
-            left: 35px;
+            left: 250px;
             font-family: monospace;
             font-size: 30px;
             #border: 5px solid green;
         }
         p1{
             position: absolute;
+            text-align: right;
             top: 55px;
             left: 35px;
             font-family: arial;
             font-size: 20px;
-            color: green;
-            width: 550px;
+            color: black;
+            width: 300px;
             #border: 5px solid green;
         }
+
+        p8{
+            position: absolute;
+            top: 55px;
+            left: 320px;
+            font-family: arial;
+            font-size: 20px;
+            color: green;
+            width: 300px;
+            #border: 5px solid green;
+        }
+
         h3{
             position: absolute;
             font-family: monospace;
@@ -215,7 +228,7 @@
             font-size: 15px;
             left: 10px;
             border: 2px solid green;
-            border-radius: 10px;
+            border-radius: 7px;
             background: green;
             text-decoration: none;
         }
@@ -224,7 +237,7 @@
     </style>
 
     <body>
-        <a id="backButton" href="/people/{{ pk }}/detail">Back</a>
+        <a id="backButton" href="/people/{{ pk }}/detail">Back to selection</a>
         
         <div id="stockHeader">
             <h1><u>{{ company_name }} stock</u></h1>
@@ -233,13 +246,22 @@
         <div id="general">
             <h2>General Info</h2>
             <p1>
-                {% for item in gen_info %}
-                <ul>{{ item }}</ul>
+                {% for name in gen_info_names %}
+                    <ul>{{ name }}</ul>
                 {% endfor %}
-                <ul>Sector: {{ sector }}</ul>
-                <ul>Industry: {{ industry }}</ul>
-                <ul>Full Time Employees: {{ employees }}</ul>
+                <ul>Sector:</ul>
+                <ul>Industry:</ul>
+                <ul>Full Time Employees:</ul>
             </p1>
+            <p8>
+                {% for value in gen_info_values %}
+                    <ul>{{ value }}</ul>
+                {% endfor %}
+                <ul>{{ sector }}</ul>
+                <ul>{{ industry }}</ul>
+                <ul>{{ employees }}</ul>
+            </p8>
+            
         </div>
 
         <div id="note">
