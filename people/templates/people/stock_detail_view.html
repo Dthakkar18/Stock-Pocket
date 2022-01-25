@@ -278,24 +278,32 @@
 
         <div id="suggestions">
             <h6>Suggestions</h6>
-            <p5>
-                {% for ticker in suggestion_tickers %}
-                <ul><a href="https://finance.yahoo.com/quote/{{ ticker }}?p={{ ticker }}">{{ ticker }}</a> --></ul>
-                {% endfor %}
-            </p5>
+            <form method="post">
+                {% csrf_token %}
+                <p5>
+                    {% for ticker in suggestion_tickers %}
 
-            <p6>
-                {% for price in suggestion_prices %}
-                <ul>{{ price }}</ul>
-                {% endfor %}
+                    <button type="submit" name="suggestion" value="{{ ticker }}" class="btn btn-outline-success">{{ ticker }} --></button>
+                    
+                    <!--
+                    <ul><a href="https://finance.yahoo.com/quote/{{ ticker }}?p={{ ticker }}">{{ ticker }}</a></ul>
+                    -->
+                    {% endfor %}
+                </p5>
 
-            </p6>
+                <p6>
+                    {% for price in suggestion_prices %}
+                    <ul>{{ price }}</ul>
+                    {% endfor %}
 
-            <p7>
-                {% for name in suggestion_names %}
-                <ul>{{ name }}</ul>
-                {% endfor %}
-            </p7>
+                </p6>
+
+                <p7>
+                    {% for name in suggestion_names %}
+                    <ul>{{ name }}</ul>
+                    {% endfor %}
+                </p7>
+            </form>
         </div>
 
         <!-- Revenue graph -->

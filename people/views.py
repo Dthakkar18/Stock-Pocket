@@ -180,48 +180,111 @@ def stock_detail(request, pk):
 
 @login_required
 def detail_view(request, pk):
-    gen_info = generalInfo(company_ticker)
-    gen_info_names = gen_info.get('names')
-    gen_info_values = gen_info.get('values')
+    global company_ticker, company_name # inroder to reasign
 
-    should_buy = purchase(company_ticker)
-    comp_info = summary(company_ticker)
+    # previous stocks suggestions (inorder to get the name) 
     suggestion_ticker = similar_tickers(company_ticker)
     suggestion_names = similar_names(company_ticker)
     suggestion_prices = similar_prices(company_ticker)
 
-    yearAndAmountRev = showRevenue(company_name, company_ticker)
-    revenueYears = yearAndAmountRev.get("years")
-    revenueAmounts = yearAndAmountRev.get("revenues")
+    if request.method == "POST":
+        print(request.POST)
+        if request.POST.get("suggestion"): # if the button of the stock was clicked
+            print(request.POST.get("suggestion"))
 
-    yearAndAmountProf = showGrossProfit(company_name, company_ticker)
-    profitYears = yearAndAmountProf.get("years")
-    profitAmounts = yearAndAmountProf.get("profits")
+            new_ticker = request.POST.get("suggestion") # ticker that was clicked on
+            index = suggestion_ticker.index(new_ticker) # so I can get the name 
+            new_name = suggestion_names[index] # company name of the ticker that was clicked on
+            
+            gen_info = generalInfo(new_ticker)
+            gen_info_names = gen_info.get('names')
+            gen_info_values = gen_info.get('values')
 
-    yearAndAmountDiv = dividendGrowth(company_ticker)
-    dividendYears = yearAndAmountDiv.get("years")
-    dividendAmounts = yearAndAmountDiv.get("amounts")
+            yearAndAmountRev = showRevenue(new_name, new_ticker)
+            revenueYears = yearAndAmountRev.get("years")
+            revenueAmounts = yearAndAmountRev.get("revenues")
 
-    context = {
-        'gen_info_names': gen_info_names,
-        'gen_info_values': gen_info_values,
-        'revenueYears': revenueYears,
-        'revenueAmounts': revenueAmounts,
-        'profitYears': profitYears,
-        'profitAmounts': profitAmounts,
-        'buy_num': should_buy[0], #not using this for now
-        'buy_word': should_buy[1], #not using this for now
-        'sector': comp_info[0],
-        'industry': comp_info[1],
-        'employees': comp_info[2],
-        'summary': comp_info[3],
-        'suggestion_tickers': suggestion_ticker,
-        'suggestion_names': suggestion_names,
-        'suggestion_prices': suggestion_prices,
-        'dividendYears': dividendYears,
-        'dividendAmounts': dividendAmounts,
-        'pk': pk,
-        "company_name": company_name
-    }
-    return render(request, "people/stock_detail_view.html", context)
+            yearAndAmountProf = showGrossProfit(new_name, new_ticker)
+            profitYears = yearAndAmountProf.get("years")
+            profitAmounts = yearAndAmountProf.get("profits")
+
+            yearAndAmountDiv = dividendGrowth(new_ticker)
+            dividendYears = yearAndAmountDiv.get("years")
+            dividendAmounts = yearAndAmountDiv.get("amounts")
+
+            should_buy = purchase(new_ticker) # not using rn 
+            comp_info = summary(new_ticker)
+
+            suggestion_ticker = similar_tickers(new_ticker)
+            suggestion_names = similar_names(new_ticker)
+            suggestion_prices = similar_prices(new_ticker)
+
+            company_ticker = new_ticker # reasigned for next clicked stock button
+            company_name = new_name # reasigned for next clicked stock button
+
+            context = {
+                'gen_info_names': gen_info_names,
+                'gen_info_values': gen_info_values,
+                'revenueYears': revenueYears,
+                'revenueAmounts': revenueAmounts,
+                'profitYears': profitYears,
+                'profitAmounts': profitAmounts,
+                'buy_num': should_buy[0], #not using this for now
+                'buy_word': should_buy[1], #not using this for now
+                'sector': comp_info[0],
+                'industry': comp_info[1],
+                'employees': comp_info[2],
+                'summary': comp_info[3],
+                'suggestion_tickers': suggestion_ticker,
+                'suggestion_names': suggestion_names,
+                'suggestion_prices': suggestion_prices,
+                'dividendYears': dividendYears,
+                'dividendAmounts': dividendAmounts,
+                'pk': pk,
+                "company_name": new_name
+            }
+            return render(request, "people/stock_detail_view.html", context)
+
+    else: # if not a post and just a redirect from above function view
+        gen_info = generalInfo(company_ticker)
+        gen_info_names = gen_info.get('names')
+        gen_info_values = gen_info.get('values')
+
+        yearAndAmountRev = showRevenue(company_name, company_ticker)
+        revenueYears = yearAndAmountRev.get("years")
+        revenueAmounts = yearAndAmountRev.get("revenues")
+
+        yearAndAmountProf = showGrossProfit(company_name, company_ticker)
+        profitYears = yearAndAmountProf.get("years")
+        profitAmounts = yearAndAmountProf.get("profits")
+
+        yearAndAmountDiv = dividendGrowth(company_ticker)
+        dividendYears = yearAndAmountDiv.get("years")
+        dividendAmounts = yearAndAmountDiv.get("amounts")
+
+        should_buy = purchase(company_ticker) # not using rn 
+        comp_info = summary(company_ticker)
+
+        context = {
+            'gen_info_names': gen_info_names,
+            'gen_info_values': gen_info_values,
+            'revenueYears': revenueYears,
+            'revenueAmounts': revenueAmounts,
+            'profitYears': profitYears,
+            'profitAmounts': profitAmounts,
+            'buy_num': should_buy[0], #not using this for now
+            'buy_word': should_buy[1], #not using this for now
+            'sector': comp_info[0],
+            'industry': comp_info[1],
+            'employees': comp_info[2],
+            'summary': comp_info[3],
+            'suggestion_tickers': suggestion_ticker,
+            'suggestion_names': suggestion_names,
+            'suggestion_prices': suggestion_prices,
+            'dividendYears': dividendYears,
+            'dividendAmounts': dividendAmounts,
+            'pk': pk,
+            "company_name": company_name
+        }
+        return render(request, "people/stock_detail_view.html", context)
 
