@@ -34,7 +34,11 @@ Layout
          - General info: 
             - previous close, open, day range, volume, market cap, pe ratio, dividend and yield, earnings date, ex-dividend date, sector, industry, employees
          - About
-         - Revenue and Profit growth bar graphs
+         - Revenue, Profit, and Dividend growth bar graphs
          - Suggestions (based on current stock)
 
-
+Purpose
+--
+   * An easy way to keep track of your current positions and holding
+   * Presented in a more visual and interactive display rather than an excel file
+   * Provided with easy to read and understandable charts and various kinds of data
