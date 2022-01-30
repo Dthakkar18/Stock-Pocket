@@ -2,7 +2,7 @@ from django.contrib import auth # not using this right now
 from django.db.models.fields import NullBooleanField # not using this right now 
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, response # not using this right now
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin # not using this right now
 from django.contrib.auth.decorators import login_required
 from django.views import generic
@@ -34,6 +34,13 @@ def landing_page(request):
 
 @login_required
 def home_page(request, pk):
+
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST.get("logout"): # if logout button clicked
+            logout(request)
+            return redirect("/") # redirects to landing page
+
     agent = Agent.objects.get(id=pk)
     stocks = Stock.objects.filter(agent_id=pk)
     amountIn = []
@@ -47,6 +54,7 @@ def home_page(request, pk):
         company.append(stocks[i].company_name)
     dividendAmounts = dividendPercentage(tickers, company, amountIn)
     current_prices = current_change(tickers, shares, amountIn)
+
     context = {
         "agent": agent,
         "stocks": stocks,
@@ -129,7 +137,7 @@ def stock_add_delete(request, pk):
     return render(request, "people/stock_add_delete.html", context)
 
 
-@login_required(login_url='/login')
+@login_required
 def stock_update(request, pk):
     stocks = Stock.objects.filter(agent_id=pk)
     if request.method == "POST":

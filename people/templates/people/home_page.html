@@ -166,7 +166,14 @@
             #border: 3px solid black;
         }
 
-    
+        #logout{
+            position: absolute;
+            top: 15px;
+            right: 0px;
+            width: 85px;
+            height: 50px;
+            #border: 2px solid black;
+        }
         
 
     </style>
@@ -174,6 +181,14 @@
 
         <div id="bar">
             {% include "people/navbar2.html" %}
+        </div>
+    
+        <div id="logout">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="logout" value="logout" class="btn btn-secondary btn-sm">Log out</button>
+                
+            </form>
         </div>
 
 

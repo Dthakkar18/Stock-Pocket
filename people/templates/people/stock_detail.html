@@ -26,7 +26,7 @@
         left: 800px;
         font-family: monospace;
     }
-    form{
+    #allSelectForm{
         position: relative;
         font-size: 15px;
         font-family: monospace;
@@ -78,6 +78,15 @@
         font-family: arial;
     }
 
+    #logoutForm{
+        position: absolute;
+        top: 15px;
+        right: 0px;
+        width: 85px;
+        height: 50px;
+        #border: 2px solid black;
+    }
+
     </style>
 
 
@@ -87,10 +96,18 @@
             {% include "people/navbar2.html" %}
         </div>
 
+        <div id="logout">
+            <form method="post" id="logoutForm">
+                {% csrf_token %}
+                <button type="submit" name="logout" value="logout" class="btn btn-secondary btn-sm">Log out</button>
+                
+            </form>
+        </div>
+
         <div id="allSelect">
             <h1><span class="badge bg-secondary">Select Stock</span></h1>
 
-            <form method="post">
+            <form method="post" id="allSelectForm">
                 {% csrf_token %}
                 <div id="inputContent">
                     <div class="row mb-3">
