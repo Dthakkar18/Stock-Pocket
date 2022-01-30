@@ -1,7 +1,5 @@
 # Stock-Pocket #
- My stock portfolio holder with unique features
- 
- You will be asked to either login or sign up before being able to utilize the tools
+ Stock portfolio holder with unique features and tools with great visuals 
  
 Layout
 --
@@ -12,6 +10,9 @@ Layout
 
 
    * **Views**
+     - **Landing page**
+       - you will be asked to login or sign up 
+
      - **Homepage page**
        - view basic info about your current positions
          - ticker, shares, avg share price, amount in, current price change, dividend amount for the year
@@ -42,3 +43,4 @@ Purpose
    * An easy way to keep track of your current positions and holding
    * Presented in a more visual and interactive display rather than an excel file
    * Provided with easy to read and understandable charts and various kinds of data
+   * Especially good for beginner investors who want eveything in one place
