@@ -35,6 +35,7 @@ def landing_page(request):
 @login_required
 def home_page(request, pk):
 
+    # the log out request
     if request.method == 'POST':
         print(request.POST)
         if request.POST.get("logout"): # if logout button clicked
@@ -91,6 +92,14 @@ def login_view(request):
 
 @login_required
 def stock_add_delete(request, pk):
+
+    # the log out request
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST.get("logout"): # if logout button clicked
+            logout(request)
+            return redirect("/") # redirects to landing page
+
     stocks = Stock.objects.filter(agent_id=pk)
     if request.method == "POST":
         print(request.POST)
@@ -139,6 +148,14 @@ def stock_add_delete(request, pk):
 
 @login_required
 def stock_update(request, pk):
+
+    # the log out request
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST.get("logout"): # if logout button clicked
+            logout(request)
+            return redirect("/") # redirects to landing page
+
     stocks = Stock.objects.filter(agent_id=pk)
     if request.method == "POST":
         print(request.POST)
@@ -166,6 +183,14 @@ def stock_update(request, pk):
 
 @login_required
 def stock_detail(request, pk):
+
+    # the log out request
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST.get("logout"): # if logout button clicked
+            logout(request)
+            return redirect("/") # redirects to landing page
+
     stocks = Stock.objects.filter(agent_id=pk)
     if request.method == "POST":
         print(request.POST)
