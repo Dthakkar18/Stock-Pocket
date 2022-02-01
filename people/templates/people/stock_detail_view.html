@@ -139,10 +139,10 @@
         p5{
             position: absolute;
             top: 50px;
-            left: 0px;
+            left: 30px;
             font-family: monospace;
             font-size: 15px;
-            width: 100px;
+            width: 60px;
             #border: 1px solid red;
         }
         p6{
@@ -281,14 +281,13 @@
             <form method="post">
                 {% csrf_token %}
                 <p5>
-                    {% for ticker in suggestion_tickers %}
-
-                    <button type="submit" name="suggestion" value="{{ ticker }}" class="btn btn-outline-success">{{ ticker }} --></button>
                     
-                    <!--
-                    <ul><a href="https://finance.yahoo.com/quote/{{ ticker }}?p={{ ticker }}">{{ ticker }}</a></ul>
-                    -->
+                    {% for ticker in suggestion_tickers %}
+                        <div style="padding-bottom: 7px;">
+                            <button type="submit" name="suggestion" value="{{ ticker }}" class="btn btn-outline-success btn-sm">{{ ticker }}</button>
+                        </div>
                     {% endfor %}
+
                 </p5>
 
                 <p6>
