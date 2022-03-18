@@ -30,6 +30,12 @@
         top: 30px;
         left: 20px;
     }
+
+    button{
+        border-radius: 0px;
+        border: 2px solid black;
+        font-weight: 500;
+    }
     
     </style>
 
@@ -40,7 +46,7 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit">Sign Up</button>
+                <button type="submit" class="btn btn-outline-success">Submit</button>
             </form>
         </div>
 
