@@ -185,11 +185,11 @@ def point(number):
 def dividendPercentage(Tickers, Companies, Amounts):
 	correctFormatValues = [] # all dividends for this year
 	for i in range(len(Tickers)):
-		html_text = requests.get(f'https://www.macrotrends.net/stocks/charts/{Tickers[i].upper()}/{Companies[i].lower()}/dividend-yield-history').text
-		soup = BeautifulSoup(html_text, 'lxml')
-		div = soup.select_one('div[style="background-color:#fff; margin: 0px 0px 20px 0px; padding:20px 30px; border:1px solid #dfdfdf;"]')
-		percentage = div.text[-7:-3]
-		amount = float(percentage) * Amounts[i] / 100 
+		stock = yf.Ticker(Tickers[i])
+		dividendRate = stock.info.get("dividendRate")
+		if type(dividendRate) == None.__class__: # for stocks that don't have dividend rate
+			dividendRate = 0.0
+		amount = float(dividendRate) * Amounts[i] / 100 
 		amount = round(amount, 2)
 		index = point(amount) + 1 # to not include the "." in the substring length
 		if len(str(amount)[index:]) != 2: # for the numbers that are not to the 0.00 format
