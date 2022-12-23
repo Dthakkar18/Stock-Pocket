@@ -91,16 +91,15 @@ def showGrossProfit(Name, Ticker):
 	yearsAndProfits = {"years": years[::-1], "profits": profits[::-1]}
 	return yearsAndProfits
 
-def summary(Ticker):
-	html_text = requests.get(f'https://finance.yahoo.com/quote/{Ticker.upper()}?p={Ticker.upper()}').text
-	soup = BeautifulSoup(html_text, 'lxml')
+def summary(Ticker): # sector, industry, employee, summary
 	items_list = []
-	summary = soup.find('p', class_='businessSummary Mt(10px) Ov(h) Tov(e)')
-	div_section = soup.find('div', class_="Mb(25px)")
-	span_sectors = div_section.find_all('span', class_="Fw(600)")
-	for item in span_sectors:
-		items_list.append(item.text)
-	items_list.append(summary.text)
+	stock = yf.Ticker(Ticker)
+	info = stock.info
+	items_list.append(info.get("sector"))
+	items_list.append(info.get("industry"))
+	items_list.append(str(info.get("fullTimeEmployees")))
+	items_list.append(info.get("longBusinessSummary"))
+	
 	return items_list
 
 def similar_tickers(Ticker):
