@@ -4,59 +4,42 @@ import yfinance as yf
 
 
 def generalInfo(ticker):
-	html_text = requests.get(f'https://finance.yahoo.com/quote/{ticker.upper()}/').text
-	soup = BeautifulSoup(html_text, 'lxml')
-	the_tr = soup.find_all('tr')
-	the_items = []
-	the_date = []
-	#finished = []
-
-	names = []
+	# using modular approach
+	stock = yf.Ticker(ticker)
+	info = stock.info
+	names = ["Previous Close:", "Open:", "Days's Range:", "Volume:", "PE Ratio:", "Dividend Percentage:", "Dividend Amount", "Buy/Sell:"]
 	values = []
-	the_items.append(the_tr[0].text) #previous close
-	the_items.append(the_tr[1].text) #open
-	the_items.append(the_tr[4].text) #day range
-	the_items.append(the_tr[6].text) #volume
-	the_items.append(the_tr[8].text) #market cap
-	the_items.append(the_tr[10].text) #pe ratio
-	the_items.append(the_tr[13].text) #dividend val
-	the_date.append(the_tr[12].text) #earnings
-	the_date.append(the_tr[14].text) #ex dividend date
-	for item in the_items:
-		new_item = seperator(item)
-		colon = new_item.index(":")
-		names.append(new_item[:colon + 1])
-		values.append(new_item[colon + 1:])
-
-	for date in the_date:
-		new_date = seperator(date)
-		colon = new_date.index(":")
-		if new_date[-1].isdigit() == True: # if it is 'something: 123'
-			start_index = colon - 4
-			names.append(new_date[:start_index] + ":")
-			values.append(new_date[start_index:colon] + new_date[colon+2:])
-		else: # if it is 'something: N/A'
-			names.append(new_date[:colon + 1])
-			values.append(new_date[colon + 1:])
-			
+	# getting all needed values
+	previous_close = decimal_alignment(str(info["previousClose"]))
+	open = decimal_alignment(str(info["open"]))
+	day_low = decimal_alignment(str(info["dayLow"]))
+	day_high = decimal_alignment(str(info["dayHigh"]))
+	volume = str(info["volume"])
+	trailing_pe = str(round(info["trailingPE"], 2))
+	dividend_percetnage = str(round(float(info["dividendYield"] * 100), 2))
+	dividend_amount = decimal_alignment(str(info["dividendRate"]))
+	buy_or_sell = str(info["recommendationKey"])
+	# adding to values list with corresponds respectivly to the names list
+	values.append("$"+ previous_close)
+	values.append("$" + open)
+	values.append("$" + day_low + " - $" + day_high)
+	values.append(volume)
+	values.append(trailing_pe)
+	values.append(dividend_percetnage + "%")
+	values.append("$" + dividend_amount)
+	values.append(buy_or_sell)
+	
 	namesAndValues = {"names": names, "values": values}
 	return namesAndValues
 
-#helper for generalInfo
-def seperator(word):
-		counter = 0  #gets index for where the number is in text --> (open120)
-		for char in word:
-			if char.isdigit() == False:
-				counter += 1 #counting letters before number 
-			else:
-				break
-		if counter != len(word):
-			return (word[0:(counter)] + ':' + word[counter:]) #seperates --> (open: 120)
-		else: # meaning that there were no numbers 
-			badChars = ['N', 'A', '(', ')', '/']
-			for i in badChars:
-				word = word.replace(i, '')
-			return (word + ":N/A")	
+# helper for generalInfo
+def decimal_alignment(amount: str) -> str:
+	if amount.__contains__("."):
+		amount = amount + "00"
+		amount = f'{float(amount):.2f}'
+	else:
+		amount = amount + ".00"
+	return amount 
 
 
 def showRevenue(Name, Ticker):
