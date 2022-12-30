@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import Stock, Agent, User
 from .forms import CustomUserCreationForm, loginForm
-from .stock_function import generalInfo, showRevenue, showGrossProfit, purchase, summary, similar_tickers, similar_names, similar_prices, current_change, dividendPercentage, dividendGrowth
+from .stock_function import generalInfo, showRevenue, showGrossProfit, summary, similar_tickers, similar_names, similar_prices, current_change, dividendPercentage, dividendGrowth
 
 # Create your views here.
 
@@ -245,7 +245,6 @@ def detail_view(request, pk):
             dividendYears = yearAndAmountDiv.get("years")
             dividendAmounts = yearAndAmountDiv.get("amounts")
 
-            should_buy = purchase(new_ticker) # not using rn 
             comp_info = summary(new_ticker)
 
             suggestion_ticker = similar_tickers(new_ticker)
@@ -262,8 +261,6 @@ def detail_view(request, pk):
                 'revenueAmounts': revenueAmounts,
                 'profitYears': profitYears,
                 'profitAmounts': profitAmounts,
-                'buy_num': should_buy[0], #not using this for now
-                'buy_word': should_buy[1], #not using this for now
                 'sector': comp_info[0],
                 'industry': comp_info[1],
                 'employees': comp_info[2],
@@ -295,7 +292,6 @@ def detail_view(request, pk):
         dividendYears = yearAndAmountDiv.get("years")
         dividendAmounts = yearAndAmountDiv.get("amounts")
 
-        should_buy = purchase(company_ticker) # not using rn 
         comp_info = summary(company_ticker)
 
         context = {
@@ -305,8 +301,6 @@ def detail_view(request, pk):
             'revenueAmounts': revenueAmounts,
             'profitYears': profitYears,
             'profitAmounts': profitAmounts,
-            'buy_num': should_buy[0], #not using this for now
-            'buy_word': should_buy[1], #not using this for now
             'sector': comp_info[0],
             'industry': comp_info[1],
             'employees': comp_info[2],

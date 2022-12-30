@@ -32,7 +32,7 @@ def generalInfo(ticker):
 	namesAndValues = {"names": names, "values": values}
 	return namesAndValues
 
-# helper for generalInfo
+# helper used in multiple menthods for proper price format
 def decimal_alignment(amount: str) -> str:
 	if amount.__contains__("."):
 		amount = amount + "00"
@@ -118,6 +118,7 @@ def similar_prices(Ticker):
 		symbols.append(fin.text)
 	return symbols
 
+# not using this function right now
 def purchase(Ticker):
 	html_text = requests.get(f'https://finance.yahoo.com/quote/{Ticker.upper()}?p={Ticker.upper()}').text
 	soup = BeautifulSoup(html_text, 'lxml')
@@ -135,29 +136,19 @@ def purchase(Ticker):
 		return [div.text, "Sell"]
 
 def current_change(Tickers, shares, amounts):
-	currentP = []
-	up_down = []
-	for ticker in Tickers:
-		html_text = requests.get(f'https://finance.yahoo.com/quote/{ticker.upper()}?p={ticker.upper()}').text
-		soup = BeautifulSoup(html_text, 'lxml')
-		price = soup.find('fin-streamer', class_='Fw(b) Fz(36px) Mb(-4px) D(ib)')
-		currentP.append(float(price.text))
-	#adds string version of num to up_down
-	for i in range(len(currentP)):
-		num = round((currentP[i])*shares[i] - amounts[i], 2)
-		index = point(num) + 1 # to not include the "." in the substring length
-		if len(str(num)[index:]) != 2: # for the numbers that are not to the 0.00 format
-			if num > 0: #if it should have "+"
-				up_down.append("+ $" + str(num) + "0") 
-			else: #if it should have "-"
-				up_down.append("- $" + str(num)[1:] + "0") # gets rid of the neg in the front of the number
-		else: # for numbers that are in the right format
-			if num > 0:
-				up_down.append("+ $" + str(num))
-			else:
-				up_down.append("- $" + str(num)[1:]) # gets rid of the neg in the front of the number
-			
-	return up_down
+	formated_price_changes = []
+	for i in range(len(Tickers)):
+		stock = yf.Ticker(Tickers[i])
+		info = stock.info
+		current_price = info.get("regularMarketPrice")
+		changed_price = str(current_price*shares[i] - amounts[i])
+		changed_price = decimal_alignment(changed_price)
+		if float(changed_price) < 0:
+			formated_price_changes.append("- $" + changed_price[1:])
+		else:
+			formated_price_changes.append("+ $" + changed_price)
+
+	return formated_price_changes
 
 # helper method for current_change
 def point(number):
