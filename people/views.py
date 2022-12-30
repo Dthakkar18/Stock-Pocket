@@ -12,6 +12,14 @@ from .stock_function import generalInfo, showRevenue, showGrossProfit, summary, 
 
 # Create your views here.
 
+#tester view
+def test_index(request, pk):
+
+
+    context = {
+    }
+    return render(request, "people/startbootstrap/index.html")
+
 # made the signup view in class form
 class SignupView(generic.CreateView):
     template_name = "registration/signup.html"
@@ -34,7 +42,6 @@ def landing_page(request):
 
 @login_required
 def home_page(request, pk):
-
     # the log out request
     if request.method == 'POST':
         print(request.POST)
