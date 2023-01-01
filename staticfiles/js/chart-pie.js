@@ -8,7 +8,7 @@ function loadJson(selector) {
 }
 
 var jsonData = loadJson('#jsonData')
-var amountIn = jsonData.amountIn
+var amountIn = jsonData.percentageIn
 var tickers = jsonData.tickers
 
 // Pie Chart Example

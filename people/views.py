@@ -18,14 +18,20 @@ def test_index(request, pk):
     agent = Agent.objects.get(id=pk)
     stocks = Stock.objects.filter(agent_id=pk)
     amountIn = []
+    percentageIn = []
     tickers = []
     for i in range(len(stocks)):
         amountIn.append(round(stocks[i].shares * stocks[i].avg_share_price,2))
         tickers.append(stocks[i].company_ticker.upper())
-    stock_data = {'amountIn': amountIn, 'tickers': tickers}
+    total_amount = sum(amountIn)
+    for amount in amountIn:
+        percentageIn.append(round(amount/total_amount*100, 2))
+
+    stock_data = {'percentageIn': percentageIn, 'tickers': tickers}
     data_json = dumps(stock_data)
     context = {
         "data": data_json,
+        "stocks": stocks
     }
     return render(request, "people/startbootstrap/index.html", context)
 
@@ -118,17 +124,16 @@ def stock_add_delete(request, pk):
 
     stocks = Stock.objects.filter(agent_id=pk)
     if request.method == "POST":
-        print(request.POST)
+        #print(request.POST) --> uncomment if you wanna see the form contents user inputed
         if request.POST.get("addStock"): # if request from adding form
             if len(request.POST.get("name")) != 0 and len(request.POST.get("ticker")) != 0 and len(request.POST.get("shares")) != 0 and len(request.POST.get("avgPrice")) != 0:
                 print("all items were given")
-                company_name = request.POST.get("name")
-                company_ticker = request.POST.get("ticker")
+                company_name = str(request.POST.get("name")).capitalize()
+                company_ticker = str(request.POST.get("ticker")).upper()
                 shares = request.POST.get("shares")
                 avg_share_price = request.POST.get("avgPrice")
                  # check if there is same stock in database
                 testing = stocks.filter(company_ticker=company_ticker)
-                # if not then continue with creating 
                 if len(testing) == 0: 
                     Stock.objects.create(
                         company_name = company_name,
@@ -167,14 +172,14 @@ def stock_update(request, pk):
 
     # the log out request
     if request.method == 'POST':
-        print(request.POST)
+        #print(request.POST) --> uncomment if you wanna see the form contents user inputed
         if request.POST.get("logout"): # if logout button clicked
             logout(request)
             return redirect("/") # redirects to landing page
 
     stocks = Stock.objects.filter(agent_id=pk)
     if request.method == "POST":
-        print(request.POST)
+        #print(request.POST) --> uncomment if you wanna see the form contents user inputed
         if request.POST.get("updateStock"): # check that request is from correct button
             if len(request.POST.get("ticker")) != 0 and len(request.POST.get("shares")) != 0 and len(request.POST.get("avgPrice")) != 0:
                 print("all items were given")
@@ -202,14 +207,14 @@ def stock_detail(request, pk):
 
     # the log out request
     if request.method == 'POST':
-        print(request.POST)
+        #print(request.POST) --> uncomment if you wanna see the form contents user inputed
         if request.POST.get("logout"): # if logout button clicked
             logout(request)
             return redirect("/") # redirects to landing page
 
     stocks = Stock.objects.filter(agent_id=pk)
     if request.method == "POST":
-        print(request.POST)
+        #print(request.POST) --> uncomment if you wanna see the form contents user inputed
         if request.POST.get("detailStock"): # check that request is from corrent button
             if len(request.POST.get("ticker")) != 0 and len(request.POST.get("name")) != 0: #making sure its vaild form
                 print("all items were given")
@@ -237,7 +242,7 @@ def detail_view(request, pk):
     suggestion_prices = similar_prices(company_ticker)
 
     if request.method == "POST":
-        print(request.POST)
+        #print(request.POST) --> uncomment if you wanna see the form contents user inputed
         if request.POST.get("suggestion"): # if the button of the stock was clicked
             print(request.POST.get("suggestion"))
 
