@@ -9,16 +9,25 @@ from django.views import generic
 from .models import Stock, Agent, User
 from .forms import CustomUserCreationForm, loginForm
 from .stock_function import generalInfo, showRevenue, showGrossProfit, summary, similar_tickers, similar_names, similar_prices, current_change, dividendPercentage, dividendGrowth
-
+from json import dumps
 # Create your views here.
 
 #tester view
 def test_index(request, pk):
 
-
+    agent = Agent.objects.get(id=pk)
+    stocks = Stock.objects.filter(agent_id=pk)
+    amountIn = []
+    tickers = []
+    for i in range(len(stocks)):
+        amountIn.append(round(stocks[i].shares * stocks[i].avg_share_price,2))
+        tickers.append(stocks[i].company_ticker.upper())
+    stock_data = {'amountIn': amountIn, 'tickers': tickers}
+    data_json = dumps(stock_data)
     context = {
+        "data": data_json,
     }
-    return render(request, "people/startbootstrap/index.html")
+    return render(request, "people/startbootstrap/index.html", context)
 
 # made the signup view in class form
 class SignupView(generic.CreateView):
