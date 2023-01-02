@@ -102,7 +102,7 @@ def login_view(request):
                 if user is not None:
                     login(request, user)
                     id = User.objects.get(username=username)
-                    return redirect("/people/" + str(id.id))
+                    return redirect("/people/" + str(id.id)) # when ready, just switch this to the dashboard url
                 else:
                     return redirect("/login")
 

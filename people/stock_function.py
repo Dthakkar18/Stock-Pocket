@@ -153,7 +153,7 @@ def current_change(Tickers, shares, amounts):
 # helper method for current_change
 def point(number):
 		text = str(number)
-		return text.index('.')	
+		return text.index('.')
 
 def dividendPercentage(Tickers, Companies, Amounts):
 	correctFormatValues = [] # all dividends for this year
