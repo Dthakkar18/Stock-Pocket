@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import Stock, Agent, User
 from .forms import CustomUserCreationForm, loginForm
-from .stock_function import generalInfo, showRevenue, showGrossProfit, summary, similar_tickers, similar_names, similar_prices, current_change, dividendPercentage, dividendGrowth
+from .stock_function import generalInfo, showRevenue, showGrossProfit, summary, similar_tickers, similar_names, similar_prices, current_change, dividendPercentage, dividendGrowth, top_three_stocks
 from json import dumps
 # Create your views here.
 
@@ -20,18 +20,35 @@ def test_index(request, pk):
     amountIn = []
     percentageIn = []
     tickers = []
+    shares = []
     for i in range(len(stocks)):
         amountIn.append(round(stocks[i].shares * stocks[i].avg_share_price,2))
         tickers.append(stocks[i].company_ticker.upper())
+        shares.append(stocks[i].shares)
     total_amount = sum(amountIn)
     for amount in amountIn:
         percentageIn.append(round(amount/total_amount*100, 2))
-
     stock_data = {'percentageIn': percentageIn, 'tickers': tickers}
-    data_json = dumps(stock_data)
+    data_json = dumps(stock_data) # so it can be used in the .js file
+    my_top_three = top_three_stocks(tickers, shares, amountIn)
+    # adjusting prices to proper string format
+    for i in range(3):
+        price =  my_top_three.get("changed_prices")[i]
+        if price > 0:
+            my_top_three.get("changed_prices")[i] = "+$" + str(my_top_three.get("changed_prices")[i])
+        elif price < 0:
+            my_top_three.get("changed_prices")[i] = "-$" + str(my_top_three.get("changed_prices")[i])[1:]
+
     context = {
+        "agent": agent,
         "data": data_json,
-        "stocks": stocks
+        "stocks": stocks,
+        "first_best_name": my_top_three.get("names")[0],
+        "second_best_name": my_top_three.get("names")[1],
+        "third_best_name": my_top_three.get("names")[2],
+        "first_best_price": my_top_three.get("changed_prices")[0],
+        "second_best_price": my_top_three.get("changed_prices")[1],
+        "third_best_price": my_top_three.get("changed_prices")[2]
     }
     return render(request, "people/startbootstrap/index.html", context)
 

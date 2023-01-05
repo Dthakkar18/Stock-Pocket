@@ -104,7 +104,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        {{ agent }}
                     </div>
                 </nav>
             </div>
@@ -118,36 +118,43 @@
                         
                         <div class="row">
                             <div class="col-xl-6">
-                                <h4>Top Three Preforming <span class="badge bg-secondary">Stocks</span></h4>
+                                <h4>Your Top Three Preforming <span class="badge bg-secondary">Stocks</span></h4>
 
                                 <p>
                                     <a class="btn btn-success" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">First Stock</a>
                                     <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Second Stock</button>
-                                    <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample3" aria-expanded="false" aria-controls="multiCollapseExample3">Toggle both elements</button>
-                                  </p>
-                                  <div class="row">
+                                    <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample3" aria-expanded="false" aria-controls="multiCollapseExample3">Third Stock</button>
+                                </p>
+                                <div class="row">
+
                                     <div class="col">
-                                      <div class="collapse multi-collapse" id="multiCollapseExample1">
-                                        <div class="card card-body">
-                                          Some placeholder content for the first collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                                        <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                            <div class="card card-body">
+                                                <p><strong>Ticker:</strong> {{ first_best_name }}</p>
+                                                <p><strong>Price Change:</strong> {{ first_best_price }}</p>
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
+
                                     <div class="col">
-                                      <div class="collapse multi-collapse" id="multiCollapseExample2">
-                                        <div class="card card-body">
-                                          Some placeholder content for the second collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                                        <div class="collapse multi-collapse" id="multiCollapseExample2">
+                                            <div class="card card-body">
+                                                <p><strong>Ticker:</strong> {{ second_best_name }}</p>
+                                                <p><strong>Price Change:</strong> {{ second_best_price }}</p>
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
+
                                     <div class="col">
                                         <div class="collapse multi-collapse" id="multiCollapseExample3">
-                                          <div class="card card-body">
-                                            Some placeholder content for the third collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                                          </div>
+                                            <div class="card card-body">
+                                                <p><strong>Ticker:</strong> {{ third_best_name }}</p>
+                                                <p><strong>Price Change:</strong> {{ third_best_price }}</p>
+                                            </div>
                                         </div>
-                                      </div>
-                                  </div>
+                                    </div>
+                                    
+                                </div>
 
                             </div>
 

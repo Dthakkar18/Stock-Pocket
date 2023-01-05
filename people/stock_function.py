@@ -150,6 +150,23 @@ def current_change(Tickers, shares, amounts):
 
 	return formated_price_changes
 
+def top_three_stocks(Tickers, shares, amounts):
+	all_stocks = {} # ticker: changed_price ; str: float
+	for i in range(len(Tickers)):
+		curr_stock = yf.Ticker(Tickers[i])
+		info = curr_stock.info
+		curr_price = info.get("regularMarketPrice")
+		curr_change_price = str(curr_price*shares[i] - amounts[i])
+		curr_change_price = decimal_alignment(curr_change_price)
+		all_stocks[Tickers[i]] = float(curr_change_price)
+	sorted_by_changed_prices = {key: val for key, val in sorted(all_stocks.items(), key = lambda ele: ele[1], reverse=True)}
+	keys = list(sorted_by_changed_prices.keys())
+	values = list(sorted_by_changed_prices.values())
+	names = [keys[0], keys[1], keys[2]]
+	changed_prices = [values[0], values[1], values[2]]
+	return {"names": names, "changed_prices": changed_prices}
+
+
 # helper method for current_change
 def point(number):
 		text = str(number)
