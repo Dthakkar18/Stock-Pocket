@@ -113,23 +113,34 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Dashboard</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <h3><span class="badge bg-secondary">Total Invested: </span> ${{ total_invested }}</h3>
                         </ol>
                         
                         <div class="row">
                             <div class="col-xl-6">
-                                <h4>Your Top Three Preforming <span class="badge bg-secondary">Stocks</span></h4>
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-pie me-1"></i>
+                                        Holding Percentages
+                                    </div>
+                                    <div style="display: none" id="pieJsonData" data-json="{{ pie_data }}"></div> <!-- gets data that will be used for our pie -->
+                                    <div class="card-body"><canvas id="myPie" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
 
+                            <div class="col-xl-6">
+                                
+                                <h4>Your Top Three Preforming Stocks</h4>
+                                <div style="display: none" id="topThreePricesJsonData" data-json="{{ top_three_stock_prices_data }}"></div>
                                 <p>
-                                    <a class="btn btn-success" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">First Stock</a>
-                                    <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Second Stock</button>
-                                    <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample3" aria-expanded="false" aria-controls="multiCollapseExample3">Third Stock</button>
+                                    <a class="btn btn-success" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">View First Stock</a>
+                                    <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">View Second Stock</button>
+                                    <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample3" aria-expanded="false" aria-controls="multiCollapseExample3">View Third Stock</button>
                                 </p>
                                 <div class="row">
-
                                     <div class="col">
                                         <div class="collapse multi-collapse" id="multiCollapseExample1">
-                                            <div class="card card-body">
+                                            <div class="card card-body" id="first_best_stock">
                                                 <p><strong>Ticker:</strong> {{ first_best_name }}</p>
                                                 <p><strong>Price Change:</strong> {{ first_best_price }}</p>
                                             </div>
@@ -138,7 +149,7 @@
 
                                     <div class="col">
                                         <div class="collapse multi-collapse" id="multiCollapseExample2">
-                                            <div class="card card-body">
+                                            <div class="card card-body" id="second_best_stock">
                                                 <p><strong>Ticker:</strong> {{ second_best_name }}</p>
                                                 <p><strong>Price Change:</strong> {{ second_best_price }}</p>
                                             </div>
@@ -147,29 +158,14 @@
 
                                     <div class="col">
                                         <div class="collapse multi-collapse" id="multiCollapseExample3">
-                                            <div class="card card-body">
+                                            <div class="card card-body" id="third_best_stock">
                                                 <p><strong>Ticker:</strong> {{ third_best_name }}</p>
                                                 <p><strong>Price Change:</strong> {{ third_best_price }}</p>
                                             </div>
                                         </div>
-                                    </div>
-                                    
-                                </div>
-
-                            </div>
-
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-pie me-1"></i>
-                                        Holding Percentages
-                                    </div>
-                                    <div style="display: none" id="jsonData" data-json="{{ data }}"></div> <!-- gets data that will be used for our pie -->
-                                    <div class="card-body"><canvas id="myPie" width="100%" height="40"></canvas></div>
+                                    </div>  
                                 </div>
                             </div>
-                            
-                            
 
                         </div>
 
@@ -233,9 +229,7 @@
         <script src="{% static 'js/scripts.js' %}"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="{% static 'assets/demo/chart-area-demo.js' %}"></script>
-        <script src="{% static 'assets/demo/chart-bar-demo.js' %}"></script>
-        <script src="{% static 'js/chart-pie.js' %}"></script>
+        <script src="{% static 'js/chart_pie.js' %}"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="{% static 'js/datatables-simple-demo.js' %}"></script>

@@ -7,7 +7,7 @@ function loadJson(selector) {
     return JSON.parse(document.querySelector(selector).getAttribute('data-json'));
 }
 
-var jsonData = loadJson('#jsonData')
+var jsonData = loadJson("#pieJsonData")
 var amountIn = jsonData.percentageIn
 var tickers = jsonData.tickers
 

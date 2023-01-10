@@ -28,9 +28,14 @@ def test_index(request, pk):
     total_amount = sum(amountIn)
     for amount in amountIn:
         percentageIn.append(round(amount/total_amount*100, 2))
-    stock_data = {'percentageIn': percentageIn, 'tickers': tickers}
-    data_json = dumps(stock_data) # so it can be used in the .js file
+    # pie info
+    pie_stock_data = {'percentageIn': percentageIn, 'tickers': tickers}
+    pie_data_json = dumps(pie_stock_data) # so it can be used in the .js file
     my_top_three = top_three_stocks(tickers, shares, amountIn)
+    # top three stocks info
+    top_three_stock_price_changes = my_top_three.get("changed_prices")
+    top_three_stock_price_changes_data = {"top_three_price_changes": top_three_stock_price_changes}
+    top_three_stock_data_json = dumps(top_three_stock_price_changes_data) # so it can be used in the .js file
     # adjusting prices to proper string format
     for i in range(3):
         price =  my_top_three.get("changed_prices")[i]
@@ -41,8 +46,10 @@ def test_index(request, pk):
 
     context = {
         "agent": agent,
-        "data": data_json,
+        "pie_data": pie_data_json,
+        "top_three_stock_prices_data": top_three_stock_data_json,
         "stocks": stocks,
+        "total_invested": total_amount,
         "first_best_name": my_top_three.get("names")[0],
         "second_best_name": my_top_three.get("names")[1],
         "third_best_name": my_top_three.get("names")[2],
