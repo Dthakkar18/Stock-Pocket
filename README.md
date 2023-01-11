@@ -1,3 +1,6 @@
+# --Disclaimer-- #
+ Currently restyling under text_index view
+
 # Stock-Pocket #
  Stock portfolio holder with unique features and tools with great visuals 
  
