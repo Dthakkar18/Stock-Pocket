@@ -14,12 +14,12 @@ if(prices[0] > 0){
     first_stock.style.borderColor = "red";
 }
 if(prices[1] > 0){
-    first_stock.style.borderColor = "green";
+    second_stock.style.borderColor = "green";
 }else{
-    first_stock.style.borderColor = "red";
+    second_stock.style.borderColor = "red";
 }
 if(prices[2] > 0){
-    first_stock.style.borderColor = "green";
+    third_stock.style.borderColor = "green";
 }else{
-    first_stock.style.borderColor = "red";
+    third_stock.style.borderColor = "red";
 }
