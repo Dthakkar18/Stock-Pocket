@@ -13,7 +13,7 @@ from json import dumps
 # Create your views here.
 
 #tester view
-def test_index(request, pk):
+def test_homepage(request, pk):
 
     agent = Agent.objects.get(id=pk)
     stocks = Stock.objects.filter(agent_id=pk)
@@ -57,7 +57,15 @@ def test_index(request, pk):
         "second_best_price": my_top_three.get("changed_prices")[1],
         "third_best_price": my_top_three.get("changed_prices")[2]
     }
-    return render(request, "people/startbootstrap/index.html", context)
+    return render(request, "people/startbootstrap/test_homepage.html", context)
+
+def test_current_standings(request, pk):
+    agent = Agent.objects.get(id=pk)
+    stocks = Stock.objects.filter(agent_id=pk)
+    context = {
+        "agent": agent
+    }
+    return render(request, "people/startbootstrap/test_current_standings.html", context)
 
 # made the signup view in class form
 class SignupView(generic.CreateView):
