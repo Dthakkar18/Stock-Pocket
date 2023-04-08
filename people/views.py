@@ -14,6 +14,12 @@ from json import dumps
 
 #tester view
 def test_homepage(request, pk):
+    # the log out request
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST.get("logout"): # if logout button clicked
+            logout(request)
+            return redirect("/") # redirects to landing page
 
     agent = Agent.objects.get(id=pk)
     stocks = Stock.objects.filter(agent_id=pk)
