@@ -73,6 +73,23 @@ def test_current_standings(request, pk):
     }
     return render(request, "people/startbootstrap/test_current_standings.html", context)
 
+
+def test_add_delete_update_stock(request, pk):
+    agent = Agent.objects.get(id=pk)
+    stocks = Stock.objects.filter(agent_id=pk)
+    context = {
+        "agent": agent
+    }
+    return render(request, "people/startbootstrap/test_add_delete_update.html", context)
+
+def test_dividend(request, pk):
+    agent = Agent.objects.get(id=pk)
+    stocks = Stock.objects.filter(agent_id=pk)
+    context = {
+        "agent": agent
+    }
+    return render(request, "people/startbootstrap/test_dividend.html", context)
+
 # made the signup view in class form
 class SignupView(generic.CreateView):
     template_name = "registration/signup.html"

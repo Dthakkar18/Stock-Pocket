@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home_page, stock_add_delete, stock_update, stock_detail, detail_view, test_homepage, test_current_standings
+from .views import home_page, stock_add_delete, stock_update, stock_detail, detail_view, test_homepage, test_current_standings, test_add_delete_update_stock, test_dividend
 
 app_name = "people"
 
@@ -13,6 +13,8 @@ urlpatterns = [
     #testing new implementation
     path('<int:pk>/test_homepage', test_homepage, name='test_homepage'),
     path('<int:pk>/test_current_standings', test_current_standings, name='test_homepage'),
+    path('<int:pk>/test_add_delete_update_stock', test_add_delete_update_stock, name='test_add_delete_update_stock'),
+    path('<int:pk>/test_dividend', test_dividend, name='test_dividend'),
     
 
     
